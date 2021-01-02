@@ -52,29 +52,11 @@ defmodule Rube.MixProject do
 
   defp aliases do
     [
-      setup: ["deps.get", "ecto.setup", "cmd npm install --prefix assets"],
+      "setup.deps": ["deps.get", "cmd npm install --prefix assets"],
+      setup: ["setup.deps", "ecto.setup"],
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
-      test: &test/1,
-      "test.base": ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
-      "test.docker": &test_docker/1
+      test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"]
     ]
-  end
-
-  defp test(args) do
-    System.get_env("DOCKER")
-    |> case do
-      "true" -> "test.docker"
-      _ -> "test.base"
-    end
-    |> Mix.Task.run(args)
-  end
-
-  defp test_docker(args) do
-    System.cmd(
-      "docker-compose",
-      Enum.concat(["run", "-e", "MIX_ENV=test", "web", "mix", "test", "--color"], args),
-      into: IO.stream(:stdio, :line)
-    )
   end
 end

@@ -2,28 +2,39 @@ version: '3.8'
 
 services:
   db:
+    image: 'postgres:13.1'
+    restart: always
+    volumes:
+      - 'dbdata:/var/lib/postgresql/data'
+    ports:
+      - "5432:5432"
     environment:
       PGDATA: /var/lib/postgresql/data/pgdata
       POSTGRES_PASSWORD: postgres
       POSTGRES_USER: postgres
       POSTGRES_HOST_AUTH_METHOD: trust
-    image: 'postgres:13.0-alpine'
-    restart: always
-    volumes:
-      - 'pgdata:/var/lib/postgresql/data'
+
   web:
     build: .
     depends_on:
       - db
-    environment:
-      MIX_ENV: dev
     env_file:
       - .env
     ports:
       - '4000:4000'
+      - '11000:4369'
+      - '11001:9999'
+    environment:
+      - "${MIX_ENV:-dev}"
+      - PORT
+      - HOST_PORT
+      - HOST
+      - SECRET_KEY_BASE
+      - LIVE_VIEW_SIGNING_SALT
+      - DATABASE_URL
     volumes:
+      - webbuild:/app/_build
       - ./.env:/app/.env
-      - ./_build:/app/_build
       - ./mix.exs:/app/mix.exs
       - ./mix.lock:/app/mix.lock
       - ./assets/css:/app/assets/css
@@ -32,11 +43,10 @@ services:
       - ./assets/package.json:/app/assets/package.json
       - ./assets/package-lock.json:/app/assets/package-lock.json
       - ./assets/webpack.config.js:/app/assets/webpack.config.js
-      - ./deps:/app/deps
       - ./config:/app/config
       - ./lib:/app/lib
-      - ./priv:/app/priv
-      - ./test:/app/test
+      - ./priv/repo:/app/priv/repo
 
 volumes:
-  pgdata:
+  dbdata:
+  webbuild:

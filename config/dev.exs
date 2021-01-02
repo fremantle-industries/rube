@@ -1,7 +1,7 @@
 use Mix.Config
 
 # Configure your database
-default_database_url = "postgres://postgres:postgres@db:5432/rube_?"
+default_database_url = "postgres://postgres:postgres@localhost:5432/rube_?"
 configured_database_url = System.get_env("DATABASE_URL") || default_database_url
 database_url = String.replace(configured_database_url, "?", "dev")
 
