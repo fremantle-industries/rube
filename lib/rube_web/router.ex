@@ -17,7 +17,12 @@ defmodule RubeWeb.Router do
   scope "/", RubeWeb do
     pipe_through :browser
 
-    live "/", PageLive, :index
+    live "/", HomeLive, :index
+    live "/blockchains", BlockchainLive, :index
+    live "/log_subscriptions", LogSubscriptionLive, :index
+    live "/new_head_subscriptions", NewHeadSubscriptionLive, :index
+    live "/tokens", TokensLive, :index
+    live "/uniswap", UniswapLive, :index
   end
 
   if Mix.env() in [:dev, :test] do

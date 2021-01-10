@@ -14,15 +14,24 @@ import "../css/app.scss"
 //
 import "phoenix_html"
 import {Socket} from "phoenix"
-import NProgress from "nprogress"
+import {start as nProgressStart, done as nProgressDone} from "nprogress"
 import {LiveSocket} from "phoenix_live_view"
 
+// LiveReact
+// @ts-ignore
+import LiveReact, {initLiveReact} from "phoenix_live_react"
+import {Components} from "./components"
+// @ts-ignore
+window.Components = Components
+document.addEventListener("DOMContentLoaded", () => initLiveReact())
+
+let hooks = {LiveReact}
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
-let liveSocket = new LiveSocket("/live", Socket, {params: {_csrf_token: csrfToken}})
+let liveSocket = new LiveSocket("/live", Socket, {params: {_csrf_token: csrfToken}, hooks})
 
 // Show progress bar on live navigation and form submits
-window.addEventListener("phx:page-loading-start", info => NProgress.start())
-window.addEventListener("phx:page-loading-stop", info => NProgress.done())
+window.addEventListener("phx:page-loading-start", () => nProgressStart())
+window.addEventListener("phx:page-loading-stop", () => nProgressDone())
 
 // connect if there are any LiveViews on the page
 liveSocket.connect()
@@ -31,5 +40,7 @@ liveSocket.connect()
 // >> liveSocket.enableDebug()
 // >> liveSocket.enableLatencySim(1000)  // enabled for duration of browser session
 // >> liveSocket.disableLatencySim()
-window.liveSocket = liveSocket
+// window.liveSocket = liveSocket
 
+// Import Bootstrap
+import "bootstrap"

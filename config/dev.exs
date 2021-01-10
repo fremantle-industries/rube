@@ -26,7 +26,7 @@ config :rube, RubeWeb.Endpoint,
       "node_modules/webpack/bin/webpack.js",
       "--mode",
       "development",
-      "--watch-stdin",
+      "--watch",
       cd: Path.expand("../assets", __DIR__)
     ]
   ]
@@ -67,7 +67,15 @@ config :rube, RubeWeb.Endpoint,
   ]
 
 # Do not include metadata nor timestamps in development logs
-config :logger, :console, format: "[$level] $message\n"
+# config :logger, :console, format: "[$level] $message\n"
+config :logger, backends: [{LoggerFileBackend, :file_log}]
+config :logger, :file_log, path: "./log/#{Mix.env()}.log", metadata: [:request_id, :blockchain_id]
+
+if System.get_env("DEBUG") == "true" do
+  config :logger, :file_log, level: :debug
+else
+  config :logger, :file_log, level: :info
+end
 
 # Set a higher stacktrace during development. Avoid configuring such
 # in production as building large stacktraces may be expensive.
@@ -75,3 +83,525 @@ config :phoenix, :stacktrace_depth, 20
 
 # Initialize plugs at runtime for faster development compilation
 config :phoenix, :plug_init_mode, :runtime
+
+# Blockchain Connections
+# TODO: The aim is to not need this at all. It should be dynamically configured
+config :ethereumex, client_type: :http
+
+# config :keeper, provider: Keeper.Vault
+# config :keeper, provider: Keeper.AWS
+# config :keeper, provider: Keeper.GCP
+# config :keeper, provider: Keeper.Memory
+# config :keeper, provider: Keeper.File
+
+# config :slurp, websocket_rpc_enabled: false
+# config :slurp, subscription_enabled: false
+
+config :slurp,
+  blockchains: %{
+    "ethereum-mainnet" => %{
+      start_on_boot: false,
+      name: "Ethereum Mainnet",
+      adapter: Slurp.Adapters.Evm,
+      network_id: 1,
+      chain_id: 1,
+      chain: "ETH",
+      testnet: false,
+      timeout: 5000,
+      new_head_initial_history: 128,
+      poll_interval_ms: 2_500,
+      rpc: [
+        # "https://mainnet.infura.io/v3/${INFURA_API_KEY}",
+        # "wss://mainnet.infura.io/ws/v3/${INFURA_API_KEY}",
+        "https://api.mycryptoapi.com/eth"
+        # "https://cloudflare-eth.com"
+      ]
+    },
+    "binance-smart-chain-mainnet" => %{
+      start_on_boot: false,
+      name: "Binance Smart Chain Mainnet",
+      adapter: Slurp.Adapters.Evm,
+      network_id: 56,
+      chain_id: 56,
+      chain: "BSC",
+      testnet: false,
+      new_head_initial_history: 128,
+      poll_interval_ms: 1_000,
+      rpc: [
+        "https://bsc-dataseed1.binance.org"
+        # "https://bsc-dataseed2.binance.org",
+        # "https://bsc-dataseed3.binance.org",
+        # "https://bsc-dataseed4.binance.org",
+        # "https://bsc-dataseed1.defibit.io",
+        # "https://bsc-dataseed2.defibit.io",
+        # "https://bsc-dataseed3.defibit.io",
+        # "https://bsc-dataseed4.defibit.io",
+        # "https://bsc-dataseed1.ninicoin.io",
+        # "https://bsc-dataseed2.ninicoin.io",
+        # "https://bsc-dataseed3.ninicoin.io",
+        # "https://bsc-dataseed4.ninicoin.io",
+        # "wss://bsc-ws-node.nariox.org"
+      ]
+    }
+    # "ethereum-ropsten" => %{
+    #   start_on_boot: false,
+    #   name: "Ethereum Testnet Ropsten",
+    #   network_id: 3,
+    #   chain_id: 3,
+    #   chain: "ETH",
+    #   testnet: true,
+    #   poll_interval_ms: 15_000,
+    #   rpc: [
+    #     "https://ropsten.infura.io/v3/${INFURA_API_KEY}",
+    #     "wss://ropsten.infura.io/ws/v3/${INFURA_API_KEY}"
+    #   ]
+    # }
+  }
+
+# config :slurp, new_heads_subscription_enabled: true
+config :slurp,
+  new_head_subscriptions: %{
+    "*" => [
+      %{
+        enabled: true,
+        handler: {Rube.NewHeadHandler, :handle_new_head, []}
+      }
+    ]
+  }
+
+# config :slurp, log_subscriptions_enabled: true
+
+config :slurp,
+  log_subscriptions: %{
+    "*" => %{
+      # ERC20
+      "Approval(address,address,uint256)" => [
+        %{
+          enabled: false,
+          struct: Rube.Erc20.Events.Approval,
+          handler: {Rube.EventHandler, :handle_event, []},
+          abi: [
+            %{
+              "anonymous" => false,
+              "inputs" => [
+                %{
+                  "indexed" => true,
+                  "name" => "owner",
+                  "type" => "address"
+                },
+                %{
+                  "indexed" => true,
+                  "name" => "spender",
+                  "type" => "address"
+                },
+                %{
+                  "indexed" => false,
+                  "name" => "value",
+                  "type" => "uint256"
+                }
+              ],
+              "name" => "Approval",
+              "type" => "event"
+            }
+          ]
+        }
+      ],
+      "Transfer(address,address,uint256)" => [
+        %{
+          enabled: false,
+          struct: Rube.Erc20.Events.Transfer,
+          handler: {Rube.EventHandler, :handle_event, []},
+          abi: [
+            %{
+              "anonymous" => false,
+              "inputs" => [
+                %{
+                  "indexed" => true,
+                  "name" => "from",
+                  "type" => "address"
+                },
+                %{
+                  "indexed" => true,
+                  "name" => "to",
+                  "type" => "address"
+                },
+                %{
+                  "indexed" => false,
+                  "name" => "value",
+                  "type" => "uint256"
+                }
+              ],
+              "name" => "Transfer",
+              "type" => "event"
+            }
+          ]
+        }
+      ],
+      # UniswapV2
+      "Mint(address,uint,uint)" => [
+        %{
+          enabled: false,
+          struct: Rube.UniswapV2.Events.Mint,
+          handler: {Rube.EventHandler, :handle_event, []},
+          abi: [
+            %{
+              "anonymous" => false,
+              "inputs" => [
+                %{
+                  "indexed" => true,
+                  "name" => "sender",
+                  "type" => "address"
+                },
+                %{
+                  "indexed" => false,
+                  "name" => "amount0",
+                  "type" => "uint"
+                },
+                %{
+                  "indexed" => false,
+                  "name" => "amount1",
+                  "type" => "uint"
+                }
+              ],
+              "name" => "Mint",
+              "type" => "event"
+            }
+          ]
+        }
+      ],
+      "Burn(address,uint,uint,address)" => [
+        %{
+          enabled: false,
+          struct: Rube.UniswapV2.Events.Burn,
+          handler: {Rube.EventHandler, :handle_event, []},
+          abi: [
+            %{
+              "anonymous" => false,
+              "inputs" => [
+                %{
+                  "indexed" => true,
+                  "name" => "sender",
+                  "type" => "address"
+                },
+                %{
+                  "indexed" => false,
+                  "name" => "amount0",
+                  "type" => "uint"
+                },
+                %{
+                  "indexed" => false,
+                  "name" => "amount1",
+                  "type" => "uint"
+                },
+                %{
+                  "indexed" => true,
+                  "name" => "to",
+                  "type" => "address"
+                }
+              ],
+              "name" => "Burn",
+              "type" => "event"
+            }
+          ]
+        }
+      ],
+      "Swap(address,uint,uint,uint,uint,address)" => [
+        %{
+          enabled: false,
+          struct: Rube.UniswapV2.Events.Swap,
+          handler: {Rube.EventHandler, :handle_event, []},
+          abi: [
+            %{
+              "anonymous" => false,
+              "inputs" => [
+                %{
+                  "indexed" => true,
+                  "name" => "sender",
+                  "type" => "address"
+                },
+                %{
+                  "indexed" => false,
+                  "name" => "amount0In",
+                  "type" => "uint"
+                },
+                %{
+                  "indexed" => false,
+                  "name" => "amount1In",
+                  "type" => "uint"
+                },
+                %{
+                  "indexed" => false,
+                  "name" => "amount0Out",
+                  "type" => "uint"
+                },
+                %{
+                  "indexed" => false,
+                  "name" => "amount1Out",
+                  "type" => "uint"
+                },
+                %{
+                  "indexed" => true,
+                  "name" => "to",
+                  "type" => "address"
+                }
+              ],
+              "name" => "Swap",
+              "type" => "event"
+            }
+          ]
+        }
+      ],
+      "Sync(uint112,uint112)" => [
+        %{
+          enabled: false,
+          struct: Rube.UniswapV2.Events.Sync,
+          handler: {Rube.EventHandler, :handle_event, []},
+          abi: [
+            %{
+              "anonymous" => false,
+              "inputs" => [
+                %{
+                  "indexed" => false,
+                  "name" => "reserve0",
+                  "type" => "uint112"
+                },
+                %{
+                  "indexed" => false,
+                  "name" => "reserve1",
+                  "type" => "uint112"
+                }
+              ],
+              "name" => "Sync",
+              "type" => "event"
+            }
+          ]
+        }
+      ],
+      # Chainlink
+      "AddedAccess(address)" => [
+        %{
+          enabled: false,
+          struct: Rube.Chainlink.Events.AddedAccess,
+          handler: {Rube.EventHandler, :handle_event, []},
+          abi: [
+            %{
+              "anonymous" => false,
+              "inputs" => [
+                %{
+                  "indexed" => false,
+                  "internalType" => "address",
+                  "name" => "user",
+                  "type" => "address"
+                }
+              ],
+              "name" => "AddedAccess",
+              "type" => "event"
+            }
+          ]
+        }
+      ],
+      "AnswerUpdated(int256,uint256,uint256)" => [
+        %{
+          enabled: true,
+          struct: Rube.Chainlink.Events.AnswerUpdated,
+          handler: {Rube.EventHandler, :handle_event, []},
+          abi: [
+            %{
+              "anonymous" => false,
+              "inputs" => [
+                %{
+                  "indexed" => true,
+                  "internalType" => "int256",
+                  "name" => "current",
+                  "type" => "int256"
+                },
+                %{
+                  "indexed" => true,
+                  "internalType" => "uint256",
+                  "name" => "roundId",
+                  "type" => "uint256"
+                },
+                %{
+                  "indexed" => false,
+                  "internalType" => "uint256",
+                  "name" => "updatedAt",
+                  "type" => "uint256"
+                }
+              ],
+              "name" => "AnswerUpdated",
+              "type" => "event"
+            }
+          ]
+        }
+      ],
+      "AvailableFundsUpdated(uint256)" => [
+        %{
+          enabled: false,
+          struct: Rube.Chainlink.Events.AvailableFundsUpdated,
+          handler: {Rube.EventHandler, :handle_event, []},
+          abi: [
+            %{
+              "anonymous" => false,
+              "inputs" => [
+                %{
+                  "indexed" => true,
+                  "internalType" => "uint256",
+                  "name" => "amount",
+                  "type" => "uint256"
+                }
+              ],
+              "name" => "AvailableFundsUpdated",
+              "type" => "event"
+            }
+          ]
+        }
+      ],
+      "NewRound(uint256,address,uint256)" => [
+        %{
+          enabled: true,
+          struct: Rube.Chainlink.Events.NewRound,
+          handler: {Rube.EventHandler, :handle_event, []},
+          abi: [
+            %{
+              "anonymous" => false,
+              "inputs" => [
+                %{
+                  "indexed" => true,
+                  "internalType" => "uint256",
+                  "name" => "roundId",
+                  "type" => "uint256"
+                },
+                %{
+                  "indexed" => true,
+                  "internalType" => "address",
+                  "name" => "startedBy",
+                  "type" => "address"
+                },
+                %{
+                  "indexed" => false,
+                  "internalType" => "uint256",
+                  "name" => "startedAt",
+                  "type" => "uint256"
+                }
+              ],
+              "name" => "NewRound",
+              "type" => "event"
+            }
+          ]
+        }
+      ],
+      "RoundDetailsUpdated(uint128,uint32,uint32,uint32,uint32)" => [
+        %{
+          enabled: true,
+          struct: Rube.Chainlink.Events.NewRound,
+          handler: {Rube.EventHandler, :handle_event, []},
+          abi: [
+            %{
+              "anonymous" => false,
+              "inputs" => [
+                %{
+                  "indexed" => true,
+                  "internalType" => "uint128",
+                  "name" => "paymentAmount",
+                  "type" => "uint128"
+                },
+                %{
+                  "indexed" => true,
+                  "internalType" => "uint32",
+                  "name" => "minSubmissionCount",
+                  "type" => "uint32"
+                },
+                %{
+                  "indexed" => true,
+                  "internalType" => "uint32",
+                  "name" => "maxSubmissionCount",
+                  "type" => "uint32"
+                },
+                %{
+                  "indexed" => false,
+                  "internalType" => "uint32",
+                  "name" => "restartDelay",
+                  "type" => "uint32"
+                },
+                %{
+                  "indexed" => false,
+                  "internalType" => "uint32",
+                  "name" => "timeout",
+                  "type" => "uint32"
+                }
+              ],
+              "name" => "RoundDetailsUpdated",
+              "type" => "event"
+            }
+          ]
+        }
+      ],
+      "SubmissionReceived(int256,uint32,address)" => [
+        %{
+          enabled: true,
+          struct: Rube.Chainlink.Events.SubmissionReceived,
+          handler: {Rube.EventHandler, :handle_event, []},
+          abi: [
+            %{
+              "anonymous" => false,
+              "inputs" => [
+                %{
+                  "indexed" => true,
+                  "internalType" => "int256",
+                  "name" => "submission",
+                  "type" => "int256"
+                },
+                %{
+                  "indexed" => true,
+                  "internalType" => "uint32",
+                  "name" => "round",
+                  "type" => "uint32"
+                },
+                %{
+                  "indexed" => true,
+                  "internalType" => "address",
+                  "name" => "oracle",
+                  "type" => "address"
+                }
+              ],
+              "name" => "SubmissionReceived",
+              "type" => "event"
+            }
+          ]
+        }
+      ],
+      "ValidatorUpdated(address,address)" => [
+        %{
+          enabled: false,
+          struct: Rube.Chainlink.Events.ValidatorUpdated,
+          handler: {Rube.EventHandler, :handle_event, []},
+          abi: [
+            %{
+              "anonymous" => false,
+              "inputs" => [
+                %{
+                  "indexed" => true,
+                  "internalType" => "address",
+                  "name" => "previous",
+                  "type" => "address"
+                },
+                %{
+                  "indexed" => true,
+                  "internalType" => "address",
+                  "name" => "current",
+                  "type" => "address"
+                }
+              ],
+              "name" => "ValidatorUpdated",
+              "type" => "event"
+            }
+          ]
+        }
+      ]
+    }
+  }
+
+# config :slurp, transaction_subscription_enabled: true
+
+# config :slurp,
+#   transaction_subscription_handler: {Examples.Transactions, :handle_transaction, []}

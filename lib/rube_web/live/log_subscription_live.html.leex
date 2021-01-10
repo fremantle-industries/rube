@@ -1,0 +1,16 @@
+<section class="row">
+  <article>
+    <h2>Log Subscriptions</h2>
+    <ul>
+      <%= if Enum.count(@log_subscriptions) == 0 do %>
+        <li class="log-subscriptions__empty">no log subscriptions configured</li>
+      <% else %>
+        <%= for s <- @log_subscriptions do %>
+          <li>
+            <%= inspect s %>
+          </li>
+        <% end %>
+      <% end %>
+    </ul>
+  </article>
+</section>

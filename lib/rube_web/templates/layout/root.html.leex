@@ -10,19 +10,42 @@
     <script defer phx-track-static type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
   </head>
   <body>
-    <header>
-      <section class="container">
-        <nav role="navigation">
-          <ul>
-            <li><a href="https://hexdocs.pm/phoenix/overview.html">Get Started</a></li>
-            <%= if function_exported?(Routes, :live_dashboard_path, 2) do %>
-              <li><%= link "LiveDashboard", to: Routes.live_dashboard_path(@conn, :home) %></li>
-            <% end %>
-          </ul>
-        </nav>
-        <a href="https://phoenixframework.org/" class="phx-logo">
-          <img src="<%= Routes.static_path(@conn, "/images/phoenix.png") %>" alt="Phoenix Framework Logo"/>
-        </a>
+    <header class="container">
+      <section class="row">
+        <div class="col">
+          <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+              <%= link "Rube Finance", to: Routes.home_path(@conn, :index), class: "navbar-brand" %>
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <%= link "Blockchains", to: Routes.blockchain_path(@conn, :index), class: "nav-link" %>
+                  </li>
+                  <li class="nav-item">
+                    <%= link "Log Subscriptions", to: Routes.log_subscription_path(@conn, :index), class: "nav-link" %>
+                  </li>
+                  <li class="nav-item">
+                    <%= link "New Head Subscriptions", to: Routes.new_head_subscription_path(@conn, :index), class: "nav-link" %>
+                  </li>
+                  <li class="nav-item">
+                    <%= link "Tokens", to: Routes.tokens_path(@conn, :index), class: "nav-link" %>
+                  </li>
+                  <li class="nav-item">
+                    <%= link "Uniswap", to: Routes.uniswap_path(@conn, :index), class: "nav-link" %>
+                  </li>
+                  <%= if function_exported?(Routes, :live_dashboard_path, 2) do %>
+                    <li class="nav-item">
+                      <%= link "Live Dashboard", to: Routes.live_dashboard_path(@conn, :home), class: "nav-link" %>
+                    </li>
+                  <% end %>
+                </ul>
+              </div>
+            </div>
+          </nav>
+        </div>
       </section>
     </header>
     <%= @inner_content %>

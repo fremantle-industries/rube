@@ -1,0 +1,16 @@
+<section class="row">
+  <article>
+    <h2>New Head Subscriptions</h2>
+    <ul>
+      <%= if Enum.count(@new_head_subscriptions) == 0 do %>
+        <li class="new-head-subscriptions__empty">no new head subscriptions configured</li>
+      <% else %>
+        <%= for s <- @new_head_subscriptions do %>
+          <li>
+            <%= inspect s %>
+          </li>
+        <% end %>
+      <% end %>
+    </ul>
+  </article>
+</section>

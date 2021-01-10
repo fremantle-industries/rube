@@ -19,9 +19,9 @@ config :rube, RubeWeb.Endpoint,
   live_view: [signing_salt: "ecn/jrqJ"]
 
 # Configures Elixir's Logger
-config :logger, :console,
-  format: "$time $metadata[$level] $message\n",
-  metadata: [:request_id]
+# config :logger, :console,
+#   format: "$time $metadata[$level] $message\n",
+#   metadata: [:request_id, :blockchain_id]
 
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason

@@ -12,28 +12,31 @@ module.exports = (env, options) => {
   return {
     optimization: {
       minimizer: [
-        new TerserPlugin({ cache: true, parallel: true, sourceMap: devMode }),
+        new TerserPlugin({cache: true, parallel: true, sourceMap: devMode}),
         new OptimizeCSSAssetsPlugin({})
       ]
     },
-    entry: {
-      'app': glob.sync('./vendor/**/*.js').concat(['./js/app.js'])
-    },
-    output: {
-      filename: '[name].js',
-      path: path.resolve(__dirname, '../priv/static/js'),
-      publicPath: '/js/'
-    },
-    devtool: devMode ? 'eval-cheap-module-source-map' : undefined,
+    // entry: {
+    //   'app': glob.sync('./vendor/**/*.js').concat(['./js/app.js'])
+    // },
+    entry: './js/app.ts',
+
     module: {
       rules: [
+        // {
+        //   // test: /\.js$/,
+        //   test: /\.tsx?$/,
+        //   exclude: /node_modules/,
+        //   use: {
+        //     loader: 'babel-loader'
+        //   }
+        // },
         {
-          test: /\.js$/,
+          test: /\.tsx?$/,
+          use: 'ts-loader',
           exclude: /node_modules/,
-          use: {
-            loader: 'babel-loader'
-          }
         },
+
         {
           test: /\.[s]?css$/,
           use: [
@@ -44,10 +47,53 @@ module.exports = (env, options) => {
         }
       ]
     },
+
+    resolve: {
+      extensions: [".ts", ".tsx", ".js"],
+      alias: {
+        react: path.resolve(__dirname, './node_modules/react'),
+        'react-dom': path.resolve(__dirname, './node_modules/react-dom')
+      }
+    },
+
+    output: {
+      filename: "app.js",
+      path: path.resolve(__dirname, "../priv/static/js")
+    },
+
+    // output: {
+    //   filename: '[name].js',
+    //   path: path.resolve(__dirname, '../priv/static/js'),
+    //   publicPath: '/js/'
+    // },
+    devtool: devMode ? 'eval-cheap-module-source-map' : undefined,
+    // module: {
+    //   rules: [
+    //     {
+    //       test: /\.js$/,
+    //       exclude: /node_modules/,
+    //       use: {
+    //         loader: 'babel-loader'
+    //       }
+    //     },
+    //     {
+    //       test: /\.[s]?css$/,
+    //       use: [
+    //         MiniCssExtractPlugin.loader,
+    //         'css-loader',
+    //         'sass-loader',
+    //       ],
+    //     }
+    //   ]
+    // },
     plugins: [
-      new MiniCssExtractPlugin({ filename: '../css/app.css' }),
-      new CopyWebpackPlugin([{ from: 'static/', to: '../' }])
-    ]
-    .concat(devMode ? [new HardSourceWebpackPlugin()] : [])
+      new MiniCssExtractPlugin({filename: '../css/app.css'}),
+      // new CopyWebpackPlugin([{from: 'static/', to: '../'}])
+      new CopyWebpackPlugin({
+        patterns: [
+          {from: "static/", to: "../"}
+        ]
+      })
+    ].concat(devMode ? [new HardSourceWebpackPlugin()] : [])
   }
 };

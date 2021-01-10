@@ -1,0 +1,16 @@
+<section class="row">
+  <article>
+    <h2>Blockchains</h2>
+    <ul>
+      <%= if Enum.count(@blockchains) == 0 do %>
+        <li class="blockchains__empty">no blockchains configured</li>
+      <% else %>
+        <%= for b <- @blockchains do %>
+          <li>
+            <%= b.id %> - network_id=<%= b.network_id %>, chain_id=<%= b.chain_id %>, testnet=<% b.testnet %>, latest_block=<%= latest_block(@latest_blocks, b.id) %>, status=TODO
+          </li>
+        <% end %>
+      <% end %>
+    </ul>
+  </article>
+</section>
