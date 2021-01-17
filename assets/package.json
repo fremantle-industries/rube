@@ -28,7 +28,7 @@
     "@types/react-timeago": "^4.1.2",
     "@types/phoenix": "^1.5.1",
     "@types/phoenix_live_view": "^0.14.0",
-    "babel-loader": "^8.0.0",
+    "babel-loader": "^8.2.2",
     "copy-webpack-plugin": "^6.4.1",
     "css-loader": "^5.0.1",
     "sass-loader": "^10.1.1",
