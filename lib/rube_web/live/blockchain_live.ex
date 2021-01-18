@@ -4,7 +4,7 @@ defmodule RubeWeb.BlockchainLive do
   @impl true
   def mount(_params, _session, socket) do
     Phoenix.PubSub.subscribe(Rube.PubSub, "new_head_received")
-    blockchains = Slurp.Blockchains.all()
+    blockchains = Slurp.Commander.blockchains([])
 
     socket =
       socket
@@ -21,6 +21,30 @@ defmodule RubeWeb.BlockchainLive do
       |> Map.put(blockchain_id, block_number)
 
     {:noreply, assign(socket, latest_blocks: latest_blocks)}
+  end
+
+  @impl true
+  def handle_event("start", %{"id" => blockchain_id}, socket) do
+    Slurp.Commander.start_blockchains(where: [id: blockchain_id])
+    blockchains = Slurp.Commander.blockchains([])
+
+    socket =
+      socket
+      |> assign(blockchains: blockchains)
+
+    {:noreply, socket}
+  end
+
+  @impl true
+  def handle_event("stop", %{"id" => blockchain_id}, socket) do
+    Slurp.Commander.stop_blockchains(where: [id: blockchain_id])
+    blockchains = Slurp.Commander.blockchains([])
+
+    socket =
+      socket
+      |> assign(blockchains: blockchains)
+
+    {:noreply, socket}
   end
 
   def latest_block(latest_blocks, blockchain_id), do: Map.get(latest_blocks, blockchain_id, "-")

@@ -21,6 +21,7 @@ defmodule RubeWeb.Router do
     live "/blockchains", BlockchainLive, :index
     live "/log_subscriptions", LogSubscriptionLive, :index
     live "/new_head_subscriptions", NewHeadSubscriptionLive, :index
+    live "/transactions", TransactionSubscriptionLive, :index
     live "/tokens", TokensLive, :index
     live "/uniswap", UniswapLive, :index
   end

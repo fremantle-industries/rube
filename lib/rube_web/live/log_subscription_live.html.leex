@@ -1,16 +1,38 @@
 <section class="row">
   <article>
     <h2>Log Subscriptions</h2>
-    <ul>
-      <%= if Enum.count(@log_subscriptions) == 0 do %>
-        <li class="log-subscriptions__empty">no log subscriptions configured</li>
-      <% else %>
-        <%= for s <- @log_subscriptions do %>
-          <li>
-            <%= inspect s %>
-          </li>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Blockchain ID</th>
+          <th scope="col">Event Signature</th>
+          <th scope="col">Hashed Event Signature</th>
+          <th scope="col">Enabled</th>
+          <th scope="col">Struct</th>
+          <th scope="col">Handler</th>
+          <th scope="col">ABI</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= if Enum.count(@log_subscriptions) == 0 do %>
+          <tr>
+            <td colspan="7">no log subscriptions configured</td>
+          </tr>
+        <% else %>
+          <%= for s <- @log_subscriptions do %>
+            <tr>
+              <th scope="row"><%= s.blockchain_id %></th>
+              <td><%= s.event_signature %></td>
+              <td title="<%= s.hashed_event_signature %>"><%= s.hashed_event_signature |> String.slice(0..18) %>...</td>
+              <td><%= s.enabled %></td>
+              <td><%= s.struct %></td>
+              <td><%= s.handler |> inspect %></td>
+              <td><%= s.abi |> Enum.count() %></td>
+            </tr>
+          <% end %>
         <% end %>
-      <% end %>
-    </ul>
+      </tbody>
+    </table>
   </article>
 </section>

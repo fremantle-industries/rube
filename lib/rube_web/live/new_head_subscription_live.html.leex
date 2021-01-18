@@ -1,16 +1,30 @@
 <section class="row">
   <article>
     <h2>New Head Subscriptions</h2>
-    <ul>
-      <%= if Enum.count(@new_head_subscriptions) == 0 do %>
-        <li class="new-head-subscriptions__empty">no new head subscriptions configured</li>
-      <% else %>
-        <%= for s <- @new_head_subscriptions do %>
-          <li>
-            <%= inspect s %>
-          </li>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Blockchain ID</th>
+          <th scope="col">Enabled</th>
+          <th scope="col">Handler</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= if Enum.count(@new_head_subscriptions) == 0 do %>
+          <tr>
+            <td colspan="3">no new head subscriptions configured</td>
+          </tr>
+        <% else %>
+          <%= for s <- @new_head_subscriptions do %>
+            <tr>
+              <th scope="row"><%= s.blockchain_id %></th>
+              <td><%= s.enabled %></td>
+              <td><%= s.handler |> inspect %></td>
+            </tr>
+          <% end %>
         <% end %>
-      <% end %>
-    </ul>
+      </tbody>
+    </table>
   </article>
 </section>

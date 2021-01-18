@@ -1,0 +1,16 @@
+<section class="row">
+  <article>
+    <h2>Transaction Subscriptions</h2>
+    <ul>
+      <%= if Enum.count(@transaction_subscriptions) == 0 do %>
+        <li class="transaction-subscriptions__empty">no transaction subscriptions configured</li>
+      <% else %>
+        <%= for s <- @transaction_subscriptions do %>
+          <li>
+            <%= inspect s %>
+          </li>
+        <% end %>
+      <% end %>
+    </ul>
+  </article>
+</section>
