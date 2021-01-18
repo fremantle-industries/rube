@@ -1,5 +1,4 @@
 const path = require('path');
-const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
@@ -9,6 +8,8 @@ module.exports = (_env, options) => {
   const devMode = options.mode !== 'production';
 
   return {
+    mode: options.mode || 'development',
+
     optimization: {
       minimizer: [
         new TerserPlugin({parallel: true}),
@@ -57,6 +58,6 @@ module.exports = (_env, options) => {
           {from: "static/", to: "../"}
         ]
       })
-    ].concat(devMode ? [new HardSourceWebpackPlugin()] : [])
+    ]
   }
 };
