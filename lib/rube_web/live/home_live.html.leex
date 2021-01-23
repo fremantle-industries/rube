@@ -2,10 +2,10 @@
   <div class="col text-center">
     <div class="overview-stats__last-block-received-at">
       last block:
-      <%= if @last_block_received_at do %>
+      <%= if @last_head_received_at do %>
         <%= live_react_component(
           "Components.TimeAgo",
-          [date: last_block_received_at(@last_block_received_at), maxPeriod: 1],
+          [date: last_head_received_at(@last_head_received_at), maxPeriod: 1],
           receiver_tag: "span",
           container_tag: "span",
           id: "last-block-received-at"
@@ -17,12 +17,12 @@
   </div>
   <div class="col text-center">
     <div title="time between blocks in seconds">
-      block cadence: <%= block_cadence_seconds(@last_block_number, @initial_block_number, @mounted_at) %>s
+      block cadence: <%= @block_cadence_seconds %>s
     </div>
   </div>
   <div class="col text-center">
     <div title="events per second">
-      events/s: <%= events_per_second(@total_events, @mounted_at) %>
+      events/s: <%= @events_per_second %>
     </div>
   </div>
 </div>
