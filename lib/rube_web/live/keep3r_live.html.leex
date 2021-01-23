@@ -1,0 +1,32 @@
+<section class="row">
+  <article>
+    <h2>Keep3r Jobs</h2>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Blockchain ID</th>
+          <th scope="col">Address</th>
+          <th scope="col">Type</th>
+          <th scope="col">Name - TODO</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= if Enum.count(@jobs) == 0 do %>
+          <tr>
+            <td colspan="4">no keep3r jobs have been received yet</td>
+          </tr>
+        <% else %>
+          <%= for j <- @jobs do %>
+            <tr>
+              <th><%= j.blockchain_id %></th>
+              <td><%= j.job %></td>
+              <td><%= j.block %></td>
+              <td><%= j.governance %></td>
+            </tr>
+          <% end %>
+        <% end %>
+      </tbody>
+    </table>
+  </article>
+</section>

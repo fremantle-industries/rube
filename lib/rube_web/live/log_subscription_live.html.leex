@@ -22,13 +22,13 @@
         <% else %>
           <%= for s <- @log_subscriptions do %>
             <tr>
-              <th scope="row"><%= s.blockchain_id %></th>
-              <td><%= s.event_signature %></td>
-              <td title="<%= s.hashed_event_signature %>"><%= s.hashed_event_signature |> String.slice(0..18) %>...</td>
-              <td><%= s.enabled %></td>
-              <td><%= s.struct %></td>
-              <td><%= s.handler |> inspect %></td>
-              <td><%= s.abi |> Enum.count() %></td>
+              <th scope="row" class="<%= !s.enabled && "text-muted"%>"><%= s.blockchain_id %></th>
+              <td class="<%= !s.enabled && "text-muted"%>"><%= s.event_signature %></td>
+              <td title="<%= s.hashed_event_signature %>" class="<%= !s.enabled && "text-muted"%>"><%= s.hashed_event_signature |> String.slice(0..18) %>...</td>
+              <td class="<%= !s.enabled && "text-muted"%>"><%= s.enabled %></td>
+              <td class="<%= !s.enabled && "text-muted"%>"><%= s.struct %></td>
+              <td class="<%= !s.enabled && "text-muted"%>"><%= s.handler |> inspect %></td>
+              <td class="<%= !s.enabled && "text-muted"%>"><%= s.abi |> Enum.count() %></td>
             </tr>
           <% end %>
         <% end %>

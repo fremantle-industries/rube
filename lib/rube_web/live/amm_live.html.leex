@@ -1,0 +1,34 @@
+<section class="row">
+  <article>
+    <h2>AMM (<%= Enum.count(@pairs) %>)</h2>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Blockchain ID</th>
+          <th scope="col">Token 0</th>
+          <th scope="col">Token 1</th>
+          <th scope="col">Address</th>
+          <th scope="col">Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= if Enum.count(@pairs) == 0 do %>
+          <tr>
+            <td colspan="7">no amm pairs have been received yet</td>
+          </tr>
+        <% else %>
+          <%= for p <- @pairs do %>
+            <tr>
+              <th><%= p.blockchain_id %></th>
+              <td title="<%= p.token0 |> format_address %>"><%= p.token0 |> format_address |> String.slice(0..10) %>...</td>
+              <td title="<%= p.token1 |> format_address %>"><%= p.token1 |> format_address |> String.slice(0..10) %>...</td>
+              <td title="<%= p.address %>"><%= p.address |> String.slice(0..10) %>...</td>
+              <td><%= (p.reserve0 / p.reserve1) |> Decimal.from_float() |> Decimal.to_string(:normal) %></td>
+            </tr>
+          <% end %>
+        <% end %>
+      </tbody>
+    </table>
+  </article>
+</section>

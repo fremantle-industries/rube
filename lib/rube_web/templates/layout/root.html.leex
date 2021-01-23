@@ -34,10 +34,22 @@
                     <%= link "Transaction Subscriptions", to: Routes.transaction_subscription_path(@conn, :index), class: "nav-link" %>
                   </li>
                   <li class="nav-item">
-                    <%= link "Tokens", to: Routes.tokens_path(@conn, :index), class: "nav-link" %>
+                    <%= link "Tokens", to: Routes.token_path(@conn, :index), class: "nav-link" %>
                   </li>
                   <li class="nav-item">
-                    <%= link "Uniswap", to: Routes.uniswap_path(@conn, :index), class: "nav-link" %>
+                    <%= link "Money Markets", to: Routes.money_market_path(@conn, :index), class: "nav-link" %>
+                  </li>
+                  <li class="nav-item">
+                    <%= link "AMM", to: Routes.amm_path(@conn, :index), class: "nav-link" %>
+                  </li>
+                  <li class="nav-item">
+                    <%= link "Chainlink", to: Routes.chainlink_path(@conn, :index), class: "nav-link" %>
+                  </li>
+                  <li class="nav-item">
+                    <%= link "Keep3r", to: Routes.keep3r_path(@conn, :index), class: "nav-link" %>
+                  </li>
+                  <li class="nav-item">
+                    <%= link "Alerts", to: Routes.alert_path(@conn, :index), class: "nav-link" %>
                   </li>
                   <%= if function_exported?(Routes, :live_dashboard_path, 2) do %>
                     <li class="nav-item">

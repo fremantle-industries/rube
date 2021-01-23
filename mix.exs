@@ -43,7 +43,7 @@ defmodule Rube.MixProject do
       {:postgrex, ">= 0.0.0"},
       # {:slurp, git: "~/workspace/fremantle-industries/slurp"},
       # {:slurp, path: "~/workspace/fremantle-industries/slurp"},
-      {:slurp, github: "fremantle-industries/slurp"},
+      {:slurp, github: "fremantle-industries/slurp", branch: "add-call-to-adapter"},
       {:telemetry_metrics, "~> 0.4"},
       {:telemetry_poller, "~> 0.4"},
       {:logger_file_backend, "~> 0.0.10", only: [:dev, :test]},

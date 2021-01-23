@@ -22,8 +22,12 @@ defmodule RubeWeb.Router do
     live "/log_subscriptions", LogSubscriptionLive, :index
     live "/new_head_subscriptions", NewHeadSubscriptionLive, :index
     live "/transactions", TransactionSubscriptionLive, :index
-    live "/tokens", TokensLive, :index
-    live "/uniswap", UniswapLive, :index
+    live "/tokens", TokenLive, :index
+    live "/money_markets", MoneyMarketLive, :index
+    live "/amm", AmmLive, :index
+    live "/chainlink", ChainlinkLive, :index
+    live "/keep3r", Keep3rLive, :index
+    live "/alerts", AlertLive, :index
   end
 
   if Mix.env() in [:dev, :test] do

@@ -1,7 +1,17 @@
-<section class="row">
-  <article>
-    <h2>Blockchains</h2>
+<div class="d-flex justify-content-between">
+  <h2>Blockchains</h2>
+  <div>
+    <%= if @blockchains |> Enum.filter(& &1.status == :running) |> Enum.count() < @blockchains |> Enum.count() do %>
+      <button phx-click="start-all" type="button" class="btn btn-outline-success">start all</button>
+    <% end %>
+    <%= if @blockchains |> Enum.filter(& &1.status == :running) |> Enum.count() > 0 do %>
+      <button phx-click="stop-all" type="button" class="btn btn-outline-danger">stop all</button>
+    <% end %>
+  </div>
+</div>
 
+<section class="row">
+  <article class="col">
     <table class="table">
       <thead>
         <tr>
