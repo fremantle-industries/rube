@@ -3,10 +3,9 @@ defmodule RubeWeb.HomeLive do
 
   @impl true
   def mount(_params, _session, socket) do
-    Phoenix.PubSub.subscribe(Rube.PubSub, "event_received")
-    Phoenix.PubSub.subscribe(Rube.PubSub, "new_head_received")
-    recent_blocks = Deque.new(100)
-    recent_events = Deque.new(100)
+    Phoenix.PubSub.subscribe(Rube.PubSub, "events:event_received")
+    Phoenix.PubSub.subscribe(Rube.PubSub, "heads:new_head_received")
+    Phoenix.PubSub.subscribe(Rube.PubSub, "recent_heads:new_head_received")
 
     socket =
       socket
@@ -16,15 +15,15 @@ defmodule RubeWeb.HomeLive do
       |> assign(total_events: 0)
       |> assign(last_event_received_at: nil)
       |> assign(mounted_at: System.monotonic_time())
-      |> assign(recent_blocks: recent_blocks)
-      |> assign(recent_events: recent_events)
+      |> assign(recent_blocks: Rube.RecentHeads.queue())
+      |> assign(recent_events: Rube.RecentEvents.queue())
 
     {:ok, socket}
   end
 
   @impl true
   def handle_info(
-        {"event_received", blockchain_id, block_number, block_hash, address, event},
+        {"events:event_received", blockchain_id, block_number, block_hash, address, event},
         socket
       ) do
     recent_events =
@@ -40,17 +39,21 @@ defmodule RubeWeb.HomeLive do
   end
 
   @impl true
-  def handle_info({"new_head_received", blockchain_id, block_number}, socket) do
-    recent_blocks =
-      socket.assigns.recent_blocks
-      |> Deque.appendleft({blockchain_id, block_number})
-
+  def handle_info({"heads:new_head_received", _blockchain_id, block_number}, socket) do
     socket =
       socket
       |> assign(initial_block_number: socket.assigns.initial_block_number || block_number)
       |> assign(last_block_number: block_number)
       |> assign(last_block_received_at: System.monotonic_time())
-      |> assign(recent_blocks: recent_blocks)
+
+    {:noreply, socket}
+  end
+
+  @impl true
+  def handle_info({"recent_heads:new_head_received", recent_heads}, socket) do
+    socket =
+      socket
+      |> assign(recent_blocks: recent_heads)
 
     {:noreply, socket}
   end

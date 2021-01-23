@@ -6,8 +6,8 @@ defmodule Rube.NewHeadHandler do
 
     Phoenix.PubSub.broadcast(
       Rube.PubSub,
-      "new_head_received",
-      {"new_head_received", blockchain.id, block_number}
+      "heads:new_head_received",
+      {"heads:new_head_received", blockchain.id, block_number}
     )
   end
 end

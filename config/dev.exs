@@ -100,7 +100,7 @@ config :ethereumex, client_type: :http
 
 config :slurp,
   blockchains: %{
-    "ethereum-mainnet" => %{
+    "eth-mainnet" => %{
       start_on_boot: false,
       name: "Ethereum Mainnet",
       adapter: Slurp.Adapters.Evm,
@@ -109,7 +109,7 @@ config :slurp,
       chain: "ETH",
       testnet: false,
       timeout: 5000,
-      new_head_initial_history: 128,
+      new_head_initial_history: 0,
       poll_interval_ms: 2_500,
       rpc: [
         # "https://mainnet.infura.io/v3/${INFURA_API_KEY}",
@@ -118,7 +118,7 @@ config :slurp,
         # "https://cloudflare-eth.com"
       ]
     },
-    "binance-smart-chain-mainnet" => %{
+    "bsc-mainnet" => %{
       start_on_boot: false,
       name: "Binance Smart Chain Mainnet",
       adapter: Slurp.Adapters.Evm,
@@ -126,7 +126,7 @@ config :slurp,
       chain_id: 56,
       chain: "BSC",
       testnet: false,
-      new_head_initial_history: 128,
+      new_head_initial_history: 0,
       poll_interval_ms: 1_000,
       rpc: [
         "https://bsc-dataseed1.binance.org"
@@ -238,11 +238,10 @@ config :slurp,
           ]
         }
       ],
-      # UniswapV2
-      "Mint(address,uint,uint)" => [
+      "Mint(address,uint256,uint256)" => [
         %{
           enabled: false,
-          struct: Rube.UniswapV2.Events.Mint,
+          struct: Rube.Erc20.Events.Mint,
           handler: {Rube.EventHandler, :handle_event, []},
           abi: [
             %{
@@ -270,10 +269,10 @@ config :slurp,
           ]
         }
       ],
-      "Burn(address,uint,uint,address)" => [
+      "Burn(address,uint256,uint256,address)" => [
         %{
           enabled: false,
-          struct: Rube.UniswapV2.Events.Burn,
+          struct: Rube.Erc20.Events.Burn,
           handler: {Rube.EventHandler, :handle_event, []},
           abi: [
             %{
@@ -306,10 +305,11 @@ config :slurp,
           ]
         }
       ],
-      "Swap(address,uint,uint,uint,uint,address)" => [
+      # AMM - Uniswap, Sushiswap, Pancakeswap etc...
+      "Swap(address,uint256,uint256,uint256,uint256,address)" => [
         %{
           enabled: false,
-          struct: Rube.UniswapV2.Events.Swap,
+          struct: Rube.Amm.Events.Swap,
           handler: {Rube.EventHandler, :handle_event, []},
           abi: [
             %{
@@ -323,22 +323,22 @@ config :slurp,
                 %{
                   "indexed" => false,
                   "name" => "amount0In",
-                  "type" => "uint"
+                  "type" => "uint256"
                 },
                 %{
                   "indexed" => false,
                   "name" => "amount1In",
-                  "type" => "uint"
+                  "type" => "uint256"
                 },
                 %{
                   "indexed" => false,
                   "name" => "amount0Out",
-                  "type" => "uint"
+                  "type" => "uint256"
                 },
                 %{
                   "indexed" => false,
                   "name" => "amount1Out",
-                  "type" => "uint"
+                  "type" => "uint256"
                 },
                 %{
                   "indexed" => true,
@@ -355,7 +355,7 @@ config :slurp,
       "Sync(uint112,uint112)" => [
         %{
           enabled: false,
-          struct: Rube.UniswapV2.Events.Sync,
+          struct: Rube.Amm.Events.Sync,
           handler: {Rube.EventHandler, :handle_event, []},
           abi: [
             %{
@@ -403,7 +403,7 @@ config :slurp,
       ],
       "AnswerUpdated(int256,uint256,uint256)" => [
         %{
-          enabled: true,
+          enabled: false,
           struct: Rube.Chainlink.Events.AnswerUpdated,
           handler: {Rube.EventHandler, :handle_event, []},
           abi: [
@@ -459,7 +459,7 @@ config :slurp,
       ],
       "NewRound(uint256,address,uint256)" => [
         %{
-          enabled: true,
+          enabled: false,
           struct: Rube.Chainlink.Events.NewRound,
           handler: {Rube.EventHandler, :handle_event, []},
           abi: [
@@ -493,7 +493,7 @@ config :slurp,
       ],
       "RoundDetailsUpdated(uint128,uint32,uint32,uint32,uint32)" => [
         %{
-          enabled: true,
+          enabled: false,
           struct: Rube.Chainlink.Events.NewRound,
           handler: {Rube.EventHandler, :handle_event, []},
           abi: [
@@ -539,7 +539,7 @@ config :slurp,
       ],
       "SubmissionReceived(int256,uint32,address)" => [
         %{
-          enabled: true,
+          enabled: false,
           struct: Rube.Chainlink.Events.SubmissionReceived,
           handler: {Rube.EventHandler, :handle_event, []},
           abi: [
@@ -598,7 +598,778 @@ config :slurp,
             }
           ]
         }
+      ],
+      "NewTransmission(address,address)" => [
+        %{
+          enabled: false,
+          struct: Rube.Chainlink.Events.NewTransmission,
+          handler: {Rube.EventHandler, :handle_event, []},
+          abi: [
+            %{
+              "anonymous" => false,
+              "inputs" => [
+                %{
+                  "indexed" => true,
+                  "internalType" => "uint32",
+                  "name" => "aggregatorRoundId",
+                  "type" => "uint32"
+                },
+                %{
+                  "indexed" => false,
+                  "internalType" => "int192",
+                  "name" => "answer",
+                  "type" => "int192"
+                },
+                %{
+                  "indexed" => false,
+                  "internalType" => "address",
+                  "name" => "transmitter",
+                  "type" => "address"
+                },
+                %{
+                  "indexed" => false,
+                  "internalType" => "int192[]",
+                  "name" => "observations",
+                  "type" => "int192[]"
+                },
+                %{
+                  "indexed" => false,
+                  "internalType" => "bytes",
+                  "name" => "observers",
+                  "type" => "bytes"
+                },
+                %{
+                  "indexed" => false,
+                  "internalType" => "bytes32",
+                  "name" => "rawReportContext",
+                  "type" => "bytes32"
+                }
+              ],
+              "name" => "NewTransmission",
+              "type" => "event"
+            }
+          ]
+        }
+      ],
+      # Keep3r
+      "SubmitJob(address,address,address,uint,uint)" => [
+        %{
+          enabled: false,
+          struct: Rube.Keep3r.Events.SubmitJob,
+          handler: {Rube.EventHandler, :handle_event, []},
+          abi: [
+            %{
+              "anonymous" => false,
+              "inputs" => [
+                %{
+                  "indexed" => true,
+                  "internalType" => "address",
+                  "name" => "job",
+                  "type" => "address"
+                },
+                %{
+                  "indexed" => true,
+                  "internalType" => "address",
+                  "name" => "liquidity",
+                  "type" => "address"
+                },
+                %{
+                  "indexed" => true,
+                  "internalType" => "address",
+                  "name" => "provider",
+                  "type" => "address"
+                },
+                %{
+                  "indexed" => false,
+                  "internalType" => "uint256",
+                  "name" => "block",
+                  "type" => "uint256"
+                },
+                %{
+                  "indexed" => false,
+                  "internalType" => "uint256",
+                  "name" => "credit",
+                  "type" => "uint256"
+                }
+              ],
+              "name" => "SubmitJob",
+              "type" => "event"
+            }
+          ]
+        }
+      ],
+      "RemoveJob(address,address,address,uint,uint)" => [
+        %{
+          enabled: false,
+          struct: Rube.Keep3r.Events.RemoveJob,
+          handler: {Rube.EventHandler, :handle_event, []},
+          abi: [
+            %{
+              "anonymous" => false,
+              "inputs" => [
+                %{
+                  "indexed" => true,
+                  "internalType" => "address",
+                  "name" => "job",
+                  "type" => "address"
+                },
+                %{
+                  "indexed" => true,
+                  "internalType" => "address",
+                  "name" => "liquidity",
+                  "type" => "address"
+                },
+                %{
+                  "indexed" => true,
+                  "internalType" => "address",
+                  "name" => "provider",
+                  "type" => "address"
+                },
+                %{
+                  "indexed" => false,
+                  "internalType" => "uint256",
+                  "name" => "block",
+                  "type" => "uint256"
+                },
+                %{
+                  "indexed" => false,
+                  "internalType" => "uint256",
+                  "name" => "credit",
+                  "type" => "uint256"
+                }
+              ],
+              "name" => "RemoveJob",
+              "type" => "event"
+            }
+          ]
+        }
+      ],
+      "UnbondJob(address,address,address,uint,uint)" => [
+        %{
+          enabled: false,
+          struct: Rube.Keep3r.Events.UnbondJob,
+          handler: {Rube.EventHandler, :handle_event, []},
+          abi: [
+            %{
+              "anonymous" => false,
+              "inputs" => [
+                %{
+                  "indexed" => true,
+                  "internalType" => "address",
+                  "name" => "job",
+                  "type" => "address"
+                },
+                %{
+                  "indexed" => true,
+                  "internalType" => "address",
+                  "name" => "liquidity",
+                  "type" => "address"
+                },
+                %{
+                  "indexed" => true,
+                  "internalType" => "address",
+                  "name" => "provider",
+                  "type" => "address"
+                },
+                %{
+                  "indexed" => false,
+                  "internalType" => "uint256",
+                  "name" => "block",
+                  "type" => "uint256"
+                },
+                %{
+                  "indexed" => false,
+                  "internalType" => "uint256",
+                  "name" => "credit",
+                  "type" => "uint256"
+                }
+              ],
+              "name" => "UnbondJob",
+              "type" => "event"
+            }
+          ]
+        }
+      ],
+      "JobAdded(address,uint,address)" => [
+        %{
+          enabled: false,
+          struct: Rube.Keep3r.Events.JobAdded,
+          handler: {Rube.EventHandler, :handle_event, []},
+          abi: [
+            %{
+              "anonymous" => false,
+              "inputs" => [
+                %{
+                  "indexed" => true,
+                  "internalType" => "address",
+                  "name" => "job",
+                  "type" => "address"
+                },
+                %{
+                  "indexed" => false,
+                  "internalType" => "uint256",
+                  "name" => "block",
+                  "type" => "uint256"
+                },
+                %{
+                  "indexed" => false,
+                  "internalType" => "address",
+                  "name" => "governance",
+                  "type" => "address"
+                }
+              ],
+              "name" => "JobAdded",
+              "type" => "event"
+            }
+          ]
+        }
+      ],
+      "JobRemoved(address,uint,address)" => [
+        %{
+          enabled: false,
+          struct: Rube.Keep3r.Events.JobRemoved,
+          handler: {Rube.EventHandler, :handle_event, []},
+          abi: [
+            %{
+              "anonymous" => false,
+              "inputs" => [
+                %{
+                  "indexed" => true,
+                  "internalType" => "address",
+                  "name" => "job",
+                  "type" => "address"
+                },
+                %{
+                  "indexed" => false,
+                  "internalType" => "uint256",
+                  "name" => "block",
+                  "type" => "uint256"
+                },
+                %{
+                  "indexed" => false,
+                  "internalType" => "address",
+                  "name" => "governance",
+                  "type" => "address"
+                }
+              ],
+              "name" => "JobRemoved",
+              "type" => "event"
+            }
+          ]
+        }
+      ],
+      "AddCredit(address,address,address,uint,uint)" => [
+        %{
+          enabled: false,
+          struct: Rube.Keep3r.Events.AddCredit,
+          handler: {Rube.EventHandler, :handle_event, []},
+          abi: [
+            %{
+              "anonymous" => false,
+              "inputs" => [
+                %{
+                  "indexed" => true,
+                  "internalType" => "address",
+                  "name" => "credit",
+                  "type" => "address"
+                },
+                %{
+                  "indexed" => true,
+                  "internalType" => "address",
+                  "name" => "job",
+                  "type" => "address"
+                },
+                %{
+                  "indexed" => true,
+                  "internalType" => "address",
+                  "name" => "creditor",
+                  "type" => "address"
+                },
+                %{
+                  "indexed" => false,
+                  "internalType" => "uint256",
+                  "name" => "block",
+                  "type" => "uint256"
+                },
+                %{
+                  "indexed" => false,
+                  "internalType" => "uint256",
+                  "name" => "amount",
+                  "type" => "uint256"
+                }
+              ],
+              "name" => "AddCredit",
+              "type" => "event"
+            }
+          ]
+        }
+      ],
+      "ApplyCredit(address,address,address,uint,uint)" => [
+        %{
+          enabled: false,
+          struct: Rube.Keep3r.Events.ApplyCredit,
+          handler: {Rube.EventHandler, :handle_event, []},
+          abi: [
+            %{
+              "anonymous" => false,
+              "inputs" => [
+                %{
+                  "indexed" => true,
+                  "internalType" => "address",
+                  "name" => "job",
+                  "type" => "address"
+                },
+                %{
+                  "indexed" => true,
+                  "internalType" => "address",
+                  "name" => "liquidity",
+                  "type" => "address"
+                },
+                %{
+                  "indexed" => true,
+                  "internalType" => "address",
+                  "name" => "provider",
+                  "type" => "address"
+                },
+                %{
+                  "indexed" => false,
+                  "internalType" => "uint256",
+                  "name" => "block",
+                  "type" => "uint256"
+                },
+                %{
+                  "indexed" => false,
+                  "internalType" => "uint256",
+                  "name" => "credit",
+                  "type" => "uint256"
+                }
+              ],
+              "name" => "ApplyCredit",
+              "type" => "event"
+            }
+          ]
+        }
+      ],
+      "KeeperWorked(address,address,address,uint,uint)" => [
+        %{
+          enabled: false,
+          struct: Rube.Keep3r.Events.KeeperWorked,
+          handler: {Rube.EventHandler, :handle_event, []},
+          abi: [
+            %{
+              "anonymous" => false,
+              "inputs" => [
+                %{
+                  "indexed" => true,
+                  "internalType" => "address",
+                  "name" => "credit",
+                  "type" => "address"
+                },
+                %{
+                  "indexed" => true,
+                  "internalType" => "address",
+                  "name" => "job",
+                  "type" => "address"
+                },
+                %{
+                  "indexed" => true,
+                  "internalType" => "address",
+                  "name" => "keeper",
+                  "type" => "address"
+                },
+                %{
+                  "indexed" => false,
+                  "internalType" => "uint256",
+                  "name" => "block",
+                  "type" => "uint256"
+                },
+                %{
+                  "indexed" => false,
+                  "internalType" => "uint256",
+                  "name" => "amount",
+                  "type" => "uint256"
+                }
+              ],
+              "name" => "KeeperWorked",
+              "type" => "event"
+            }
+          ]
+        }
+      ],
+      "KeeperBonding(address,uint,uint,uint)" => [
+        %{
+          enabled: false,
+          struct: Rube.Keep3r.Events.KeeperBonding,
+          handler: {Rube.EventHandler, :handle_event, []},
+          abi: [
+            %{
+              "anonymous" => false,
+              "inputs" => [
+                %{
+                  "indexed" => true,
+                  "internalType" => "address",
+                  "name" => "keeper",
+                  "type" => "address"
+                },
+                %{
+                  "indexed" => false,
+                  "internalType" => "uint256",
+                  "name" => "block",
+                  "type" => "uint256"
+                },
+                %{
+                  "indexed" => false,
+                  "internalType" => "uint256",
+                  "name" => "active",
+                  "type" => "uint256"
+                },
+                %{
+                  "indexed" => false,
+                  "internalType" => "uint256",
+                  "name" => "bond",
+                  "type" => "uint256"
+                }
+              ],
+              "name" => "KeeperBonding",
+              "type" => "event"
+            }
+          ]
+        }
+      ],
+      "KeeperBonded(address,uint,uint,uint)" => [
+        %{
+          enabled: false,
+          struct: Rube.Keep3r.Events.KeeperBonded,
+          handler: {Rube.EventHandler, :handle_event, []},
+          abi: [
+            %{
+              "anonymous" => false,
+              "inputs" => [
+                %{
+                  "indexed" => true,
+                  "internalType" => "address",
+                  "name" => "keeper",
+                  "type" => "address"
+                },
+                %{
+                  "indexed" => false,
+                  "internalType" => "uint256",
+                  "name" => "block",
+                  "type" => "uint256"
+                },
+                %{
+                  "indexed" => false,
+                  "internalType" => "uint256",
+                  "name" => "activated",
+                  "type" => "uint256"
+                },
+                %{
+                  "indexed" => false,
+                  "internalType" => "uint256",
+                  "name" => "bond",
+                  "type" => "uint256"
+                }
+              ],
+              "name" => "KeeperBonded",
+              "type" => "event"
+            }
+          ]
+        }
+      ],
+      "KeeperUnbonding(address,uint,uint,uint)" => [
+        %{
+          enabled: false,
+          struct: Rube.Keep3r.Events.KeeperUnbonding,
+          handler: {Rube.EventHandler, :handle_event, []},
+          abi: [
+            %{
+              "anonymous" => false,
+              "inputs" => [
+                %{
+                  "indexed" => true,
+                  "internalType" => "address",
+                  "name" => "keeper",
+                  "type" => "address"
+                },
+                %{
+                  "indexed" => false,
+                  "internalType" => "uint256",
+                  "name" => "block",
+                  "type" => "uint256"
+                },
+                %{
+                  "indexed" => false,
+                  "internalType" => "uint256",
+                  "name" => "deactive",
+                  "type" => "uint256"
+                },
+                %{
+                  "indexed" => false,
+                  "internalType" => "uint256",
+                  "name" => "bond",
+                  "type" => "uint256"
+                }
+              ],
+              "name" => "KeeperUnbonding",
+              "type" => "event"
+            }
+          ]
+        }
+      ],
+      "KeeperUnbound(address,uint,uint,uint)" => [
+        %{
+          enabled: false,
+          struct: Rube.Keep3r.Events.KeeperUnbound,
+          handler: {Rube.EventHandler, :handle_event, []},
+          abi: [
+            %{
+              "anonymous" => false,
+              "inputs" => [
+                %{
+                  "indexed" => true,
+                  "internalType" => "address",
+                  "name" => "keeper",
+                  "type" => "address"
+                },
+                %{
+                  "indexed" => false,
+                  "internalType" => "uint256",
+                  "name" => "block",
+                  "type" => "uint256"
+                },
+                %{
+                  "indexed" => false,
+                  "internalType" => "uint256",
+                  "name" => "deactivated",
+                  "type" => "uint256"
+                },
+                %{
+                  "indexed" => false,
+                  "internalType" => "uint256",
+                  "name" => "bond",
+                  "type" => "uint256"
+                }
+              ],
+              "name" => "KeeperUnbound",
+              "type" => "event"
+            }
+          ]
+        }
+      ],
+      "KeeperSlashed(address,address,uint,uint)" => [
+        %{
+          enabled: false,
+          struct: Rube.Keep3r.Events.KeeperSlashed,
+          handler: {Rube.EventHandler, :handle_event, []},
+          abi: [
+            %{
+              "anonymous" => false,
+              "inputs" => [
+                %{
+                  "indexed" => true,
+                  "internalType" => "address",
+                  "name" => "keeper",
+                  "type" => "address"
+                },
+                %{
+                  "indexed" => true,
+                  "internalType" => "address",
+                  "name" => "slasher",
+                  "type" => "address"
+                },
+                %{
+                  "indexed" => false,
+                  "internalType" => "uint256",
+                  "name" => "block",
+                  "type" => "uint256"
+                },
+                %{
+                  "indexed" => false,
+                  "internalType" => "uint256",
+                  "name" => "slash",
+                  "type" => "uint256"
+                }
+              ],
+              "name" => "KeeperSlashed",
+              "type" => "event"
+            }
+          ]
+        }
+      ],
+      "KeeperDispute(address,uint)" => [
+        %{
+          enabled: false,
+          struct: Rube.Keep3r.Events.KeeperDispute,
+          handler: {Rube.EventHandler, :handle_event, []},
+          abi: [
+            %{
+              "anonymous" => false,
+              "inputs" => [
+                %{
+                  "indexed" => true,
+                  "internalType" => "address",
+                  "name" => "keeper",
+                  "type" => "address"
+                },
+                %{
+                  "indexed" => false,
+                  "internalType" => "uint256",
+                  "name" => "block",
+                  "type" => "uint256"
+                }
+              ],
+              "name" => "KeeperDispute",
+              "type" => "event"
+            }
+          ]
+        }
+      ],
+      "KeeperResolved(address,uint)" => [
+        %{
+          enabled: false,
+          struct: Rube.Keep3r.Events.KeeperResolved,
+          handler: {Rube.EventHandler, :handle_event, []},
+          abi: [
+            %{
+              "anonymous" => false,
+              "inputs" => [
+                %{
+                  "indexed" => true,
+                  "internalType" => "address",
+                  "name" => "keeper",
+                  "type" => "address"
+                },
+                %{
+                  "indexed" => false,
+                  "internalType" => "uint256",
+                  "name" => "block",
+                  "type" => "uint256"
+                }
+              ],
+              "name" => "KeeperResolved",
+              "type" => "event"
+            }
+          ]
+        }
+      ],
+      # Compound
+      "AccrueInterest(uint,uint,uint,uint)" => [
+        %{
+          enabled: true,
+          struct: Rube.Compound.Events.AccrueInterest,
+          handler: {Rube.EventHandler, :handle_event, []},
+          abi: [
+            %{
+              "anonymous" => false,
+              "inputs" => [
+                %{
+                  "indexed" => false,
+                  "internalType" => "uint256",
+                  "name" => "cashPrior",
+                  "type" => "uint256"
+                },
+                %{
+                  "indexed" => false,
+                  "internalType" => "uint256",
+                  "name" => "interestAccumulated",
+                  "type" => "uint256"
+                },
+                %{
+                  "indexed" => false,
+                  "internalType" => "uint256",
+                  "name" => "borrowIndex",
+                  "type" => "uint256"
+                },
+                %{
+                  "indexed" => false,
+                  "internalType" => "uint256",
+                  "name" => "totalBorrows",
+                  "type" => "uint256"
+                }
+              ],
+              "name" => "AccrueInterest",
+              "type" => "event"
+            }
+          ]
+        }
       ]
+
+      # /**
+      # * @notice Event emitted when tokens are minted
+      # */
+      # event Mint(address minter, uint mintAmount, uint mintTokens);
+
+      # /**
+      # * @notice Event emitted when tokens are redeemed
+      # */
+      # event Redeem(address redeemer, uint redeemAmount, uint redeemTokens);
+
+      # /**
+      # * @notice Event emitted when underlying is borrowed
+      # */
+      # event Borrow(address borrower, uint borrowAmount, uint accountBorrows, uint totalBorrows);
+
+      # /**
+      # * @notice Event emitted when a borrow is repaid
+      # */
+      # event RepayBorrow(address payer, address borrower, uint repayAmount, uint accountBorrows, uint totalBorrows);
+
+      # /**
+      # * @notice Event emitted when a borrow is liquidated
+      # */
+      # event LiquidateBorrow(address liquidator, address borrower, uint repayAmount, address cTokenCollateral, uint seizeTokens);
+
+      # /*** Admin Events ***/
+
+      # /**
+      # * @notice Event emitted when pendingAdmin is changed
+      # */
+      # event NewPendingAdmin(address oldPendingAdmin, address newPendingAdmin);
+
+      # /**
+      # * @notice Event emitted when pendingAdmin is accepted, which means admin is updated
+      # */
+      # event NewAdmin(address oldAdmin, address newAdmin);
+
+      # /**
+      # * @notice Event emitted when comptroller is changed
+      # */
+      # event NewComptroller(ComptrollerInterface oldComptroller, ComptrollerInterface newComptroller);
+
+      # /**
+      # * @notice Event emitted when interestRateModel is changed
+      # */
+      # event NewMarketInterestRateModel(InterestRateModel oldInterestRateModel, InterestRateModel newInterestRateModel);
+
+      # /**
+      # * @notice Event emitted when the reserve factor is changed
+      # */
+      # event NewReserveFactor(uint oldReserveFactorMantissa, uint newReserveFactorMantissa);
+
+      # /**
+      # * @notice Event emitted when the reserves are added
+      # */
+      # event ReservesAdded(address benefactor, uint addAmount, uint newTotalReserves);
+
+      # /**
+      # * @notice Event emitted when the reserves are reduced
+      # */
+      # event ReservesReduced(address admin, uint reduceAmount, uint newTotalReserves);
+
+      # /**
+      # * @notice EIP20 Transfer event
+      # */
+      # event Transfer(address indexed from, address indexed to, uint amount);
+
+      # /**
+      # * @notice EIP20 Approval event
+      # */
+      # event Approval(address indexed owner, address indexed spender, uint amount);
+
+      # /**
+      # * @notice Failure event
+      # */
+      # event Failure(uint error, uint info, uint detail);
     }
   }
 
