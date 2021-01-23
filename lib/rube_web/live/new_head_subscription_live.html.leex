@@ -19,8 +19,8 @@
           <%= for s <- @new_head_subscriptions do %>
             <tr>
               <th scope="row"><%= s.blockchain_id %></th>
-              <td><%= s.enabled %></td>
-              <td><%= s.handler |> inspect %></td>
+              <td class="<%= !s.enabled && "text-muted"%>"><%= s.enabled %></td>
+              <td class="<%= !s.enabled && "text-muted"%>"><%= s.handler |> inspect %></td>
             </tr>
           <% end %>
         <% end %>

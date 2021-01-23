@@ -47,5 +47,27 @@ defmodule RubeWeb.BlockchainLive do
     {:noreply, socket}
   end
 
-  def latest_block(latest_blocks, blockchain_id), do: Map.get(latest_blocks, blockchain_id, "-")
+  @impl true
+  def handle_event("start-all", _, socket) do
+    Slurp.Commander.start_blockchains([])
+    blockchains = Slurp.Commander.blockchains([])
+
+    socket =
+      socket
+      |> assign(blockchains: blockchains)
+
+    {:noreply, socket}
+  end
+
+  @impl true
+  def handle_event("stop-all", _, socket) do
+    Slurp.Commander.stop_blockchains([])
+    blockchains = Slurp.Commander.blockchains([])
+
+    socket =
+      socket
+      |> assign(blockchains: blockchains)
+
+    {:noreply, socket}
+  end
 end

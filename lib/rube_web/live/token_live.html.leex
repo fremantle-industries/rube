@@ -1,0 +1,32 @@
+<section class="row">
+  <article>
+    <h2>Tokens (<%= Enum.count(@tokens) %>)</h2>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Blockchain ID</th>
+          <th scope="col">Symbol</th>
+          <th scope="col">Address</th>
+          <th scope="col">Precision</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= if Enum.count(@tokens) == 0 do %>
+          <tr>
+            <td colspan="4">no tokens have been received yet</td>
+          </tr>
+        <% else %>
+          <%= for t <- @tokens do %>
+            <tr class="<%= if t == @latest_token, do: "fade-out-bg", else: "" %>">
+              <th><%= t.blockchain_id %></th>
+              <td><%= t.symbol %></td>
+              <td><%= t.address %></td>
+              <td><%= t.precision %></td>
+            </tr>
+          <% end %>
+        <% end %>
+      </tbody>
+    </table>
+  </article>
+</section>

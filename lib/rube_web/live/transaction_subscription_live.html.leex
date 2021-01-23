@@ -1,16 +1,30 @@
 <section class="row">
   <article>
     <h2>Transaction Subscriptions</h2>
-    <ul>
-      <%= if Enum.count(@transaction_subscriptions) == 0 do %>
-        <li class="transaction-subscriptions__empty">no transaction subscriptions configured</li>
-      <% else %>
-        <%= for s <- @transaction_subscriptions do %>
-          <li>
-            <%= inspect s %>
-          </li>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Blockchain ID</th>
+          <th scope="col">Enabled</th>
+          <th scope="col">Handler</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= if Enum.count(@transaction_subscriptions) == 0 do %>
+          <tr>
+            <td colspan="3">no transaction subscriptions configured</td>
+          </tr>
+        <% else %>
+          <%= for s <- @transaction_subscriptions do %>
+            <tr>
+              <th scope="row"><%= s.blockchain_id %></th>
+              <td class="<%= !s.enabled && "text-muted"%>"><%= s.enabled %></td>
+              <td class="<%= !s.enabled && "text-muted"%>"><%= s.handler |> inspect %></td>
+            </tr>
+          <% end %>
         <% end %>
-      <% end %>
-    </ul>
+      </tbody>
+    </table>
   </article>
 </section>
