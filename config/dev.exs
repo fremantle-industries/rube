@@ -240,7 +240,7 @@ config :slurp,
       ],
       "Mint(address,uint256,uint256)" => [
         %{
-          enabled: false,
+          enabled: true,
           struct: Rube.Erc20.Events.Mint,
           handler: {Rube.EventHandler, :handle_event, []},
           abi: [

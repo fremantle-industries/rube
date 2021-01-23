@@ -14,6 +14,7 @@ defmodule Rube.Application do
       Rube.Chainlink.Supervisor,
       Rube.RecentHeads,
       Rube.RecentEvents,
+      Rube.BlockchainStatistics,
       RubeWeb.Endpoint
     ]
 
