@@ -238,6 +238,23 @@ config :slurp,
     #   poll_interval_ms: 2_500,
     #   rpc: []
     # }
+    # TODO: Requires a separate adapter. Doesn't have the same RPC methods
+    # "rsk-mainnet" => %{
+    #   start_on_boot: false,
+    #   name: "RSK Mainnet",
+    #   adapter: Slurp.Adapters.Rsk,
+    #   network_id: 30,
+    #   chain_id: 30,
+    #   chain: "RSK",
+    #   testnet: false,
+    #   timeout: 5000,
+    #   new_head_initial_history: 0,
+    #   poll_interval_ms: 2_500,
+    #   rpc: [
+    #     "https://public-node.rsk.co"
+    #     # "https://mycrypto.rsk.co"
+    #   ]
+    # }
   }
 
 # config :slurp, new_heads_subscription_enabled: true
