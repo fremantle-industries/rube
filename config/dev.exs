@@ -194,6 +194,22 @@ config :slurp,
     #     # "ws://xdai.poanetwork.dev:8546"
     #   ]
     # },
+    # TODO: Requires a separate adapter. Doesn't have the same RPC methods
+    # "near-mainnet" => %{
+    #   start_on_boot: false,
+    #   name: "NEAR Mainnet",
+    #   adapter: Slurp.Adapters.Near,
+    #   network_id: 1_313_161_554,
+    #   chain_id: 1_313_161_554,
+    #   chain: "NEAR",
+    #   testnet: false,
+    #   timeout: 5000,
+    #   new_head_initial_history: 0,
+    #   poll_interval_ms: 2_500,
+    #   rpc: [
+    #     "https://rpc.mainnet.near.org"
+    #   ]
+    # },
     "avalanche-mainnet" => %{
       start_on_boot: false,
       name: "Matic Mainnet",
