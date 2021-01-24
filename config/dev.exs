@@ -1292,7 +1292,7 @@ config :slurp,
             }
           ]
         }
-      ]
+      ],
 
       # /**
       # * @notice Event emitted when tokens are minted
@@ -1370,6 +1370,143 @@ config :slurp,
       # * @notice Failure event
       # */
       # event Failure(uint error, uint info, uint detail);
+
+      # FutureSwap
+      "TradeOpen(uint256,address,bool,uint256,uint256,uint256,uint256,uint256,uint256,uint256,address)" =>
+        [
+          %{
+            enabled: true,
+            struct: Rube.FutureSwap.Events.TradeOpen,
+            handler: {Rube.EventHandler, :handle_event, []},
+            abi: [
+              %{
+                "anonymous" => false,
+                "inputs" => [
+                  %{
+                    "indexed" => true,
+                    "internalType" => "uint256",
+                    "name" => "tradeId",
+                    "type" => "uint256"
+                  },
+                  %{
+                    "indexed" => true,
+                    "internalType" => "address",
+                    "name" => "tradeOwner",
+                    "type" => "address"
+                  },
+                  %{
+                    "indexed" => false,
+                    "internalType" => "bool",
+                    "name" => "isLong",
+                    "type" => "bool"
+                  },
+                  %{
+                    "indexed" => false,
+                    "internalType" => "uint256",
+                    "name" => "collateral",
+                    "type" => "uint256"
+                  },
+                  %{
+                    "indexed" => false,
+                    "internalType" => "uint256",
+                    "name" => "leverage",
+                    "type" => "uint256"
+                  },
+                  %{
+                    "indexed" => false,
+                    "internalType" => "uint256",
+                    "name" => "assetPrice",
+                    "type" => "uint256"
+                  },
+                  %{
+                    "indexed" => false,
+                    "internalType" => "uint256",
+                    "name" => "stablePrice",
+                    "type" => "uint256"
+                  },
+                  %{
+                    "indexed" => false,
+                    "internalType" => "uint256",
+                    "name" => "openFee",
+                    "type" => "uint256"
+                  },
+                  %{
+                    "indexed" => false,
+                    "internalType" => "uint256",
+                    "name" => "oracleRoundId",
+                    "type" => "uint256"
+                  },
+                  %{
+                    "indexed" => false,
+                    "internalType" => "uint256",
+                    "name" => "timestamp",
+                    "type" => "uint256"
+                  },
+                  %{
+                    "indexed" => true,
+                    "internalType" => "address",
+                    "name" => "referral",
+                    "type" => "address"
+                  }
+                ],
+                "name" => "TradeOpen",
+                "type" => "event"
+              }
+            ]
+          }
+        ],
+      "TradeLiquidate(uint256,address,address,uint256,uint256,uint256)" => [
+        %{
+          enabled: true,
+          struct: Rube.FutureSwap.Events.TradeLiquidate,
+          handler: {Rube.EventHandler, :handle_event, []},
+          abi: [
+            %{
+              "anonymous" => false,
+              "inputs" => [
+                %{
+                  "indexed" => true,
+                  "internalType" => "uint256",
+                  "name" => "tradeId",
+                  "type" => "uint256"
+                },
+                %{
+                  "indexed" => true,
+                  "internalType" => "address",
+                  "name" => "tradeOwner",
+                  "type" => "address"
+                },
+                %{
+                  "indexed" => true,
+                  "internalType" => "address",
+                  "name" => "liquidator",
+                  "type" => "address"
+                },
+                %{
+                  "indexed" => false,
+                  "internalType" => "uint256",
+                  "name" => "stableToSendLiquidator",
+                  "type" => "uint256"
+                },
+                %{
+                  "indexed" => false,
+                  "internalType" => "uint256",
+                  "name" => "stableToSendTradeOwner",
+                  "type" => "uint256"
+                },
+                %{
+                  "indexed" => false,
+                  "internalType" => "uint256",
+                  "name" => "timestamp",
+                  "type" => "uint256"
+                }
+              ],
+              "name" => "TradeLiquidate",
+              "type" => "event"
+            }
+          ]
+        }
+      ]
     }
   }
 
