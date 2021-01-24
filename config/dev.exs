@@ -172,6 +172,21 @@ config :slurp,
         "https://rpc-mainnet.matic.network"
         # "wss://ws-mainnet.matic.network"
       ]
+    },
+    "avalanche-mainnet" => %{
+      start_on_boot: false,
+      name: "Matic Mainnet",
+      adapter: Slurp.Adapters.Evm,
+      network_id: 43114,
+      chain_id: 43114,
+      chain: "Avax",
+      testnet: false,
+      timeout: 5000,
+      new_head_initial_history: 0,
+      poll_interval_ms: 2_500,
+      rpc: [
+        "https://api.avax.network/ext/bc/C/rpc"
+      ]
     }
     # "optimism-mainnet" => %{
     #   start_on_boot: false,
