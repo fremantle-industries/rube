@@ -173,6 +173,19 @@ config :slurp,
         # "wss://ws-mainnet.matic.network"
       ]
     }
+    # "optimism-mainnet" => %{
+    #   start_on_boot: false,
+    #   name: "Optimistic Ethereum",
+    #   adapter: Slurp.Adapters.Evm,
+    #   network_id: 10,
+    #   chain_id: 10,
+    #   chain: "ETH",
+    #   testnet: false,
+    #   timeout: 5000,
+    #   new_head_initial_history: 0,
+    #   poll_interval_ms: 2_500,
+    #   rpc: []
+    # }
   }
 
 # config :slurp, new_heads_subscription_enabled: true
