@@ -652,9 +652,9 @@ config :slurp,
         }
       ],
       # Keep3r
-      "SubmitJob(address,address,address,uint,uint)" => [
+      "SubmitJob(address,address,address,uint256,uint256)" => [
         %{
-          enabled: false,
+          enabled: true,
           struct: Rube.Keep3r.Events.SubmitJob,
           handler: {Rube.EventHandler, :handle_event, []},
           abi: [
@@ -698,9 +698,9 @@ config :slurp,
           ]
         }
       ],
-      "RemoveJob(address,address,address,uint,uint)" => [
+      "RemoveJob(address,address,address,uint256,uint256)" => [
         %{
-          enabled: false,
+          enabled: true,
           struct: Rube.Keep3r.Events.RemoveJob,
           handler: {Rube.EventHandler, :handle_event, []},
           abi: [
@@ -744,9 +744,9 @@ config :slurp,
           ]
         }
       ],
-      "UnbondJob(address,address,address,uint,uint)" => [
+      "UnbondJob(address,address,address,uint256,uint256)" => [
         %{
-          enabled: false,
+          enabled: true,
           struct: Rube.Keep3r.Events.UnbondJob,
           handler: {Rube.EventHandler, :handle_event, []},
           abi: [
@@ -790,9 +790,9 @@ config :slurp,
           ]
         }
       ],
-      "JobAdded(address,uint,address)" => [
+      "JobAdded(address,uint256,address)" => [
         %{
-          enabled: false,
+          enabled: true,
           struct: Rube.Keep3r.Events.JobAdded,
           handler: {Rube.EventHandler, :handle_event, []},
           abi: [
@@ -824,9 +824,9 @@ config :slurp,
           ]
         }
       ],
-      "JobRemoved(address,uint,address)" => [
+      "JobRemoved(address,uint256,address)" => [
         %{
-          enabled: false,
+          enabled: true,
           struct: Rube.Keep3r.Events.JobRemoved,
           handler: {Rube.EventHandler, :handle_event, []},
           abi: [
@@ -858,9 +858,9 @@ config :slurp,
           ]
         }
       ],
-      "AddCredit(address,address,address,uint,uint)" => [
+      "AddCredit(address,address,address,uint256,uint256)" => [
         %{
-          enabled: false,
+          enabled: true,
           struct: Rube.Keep3r.Events.AddCredit,
           handler: {Rube.EventHandler, :handle_event, []},
           abi: [
@@ -904,9 +904,9 @@ config :slurp,
           ]
         }
       ],
-      "ApplyCredit(address,address,address,uint,uint)" => [
+      "ApplyCredit(address,address,address,uint256,uint256)" => [
         %{
-          enabled: false,
+          enabled: true,
           struct: Rube.Keep3r.Events.ApplyCredit,
           handler: {Rube.EventHandler, :handle_event, []},
           abi: [
@@ -950,9 +950,9 @@ config :slurp,
           ]
         }
       ],
-      "KeeperWorked(address,address,address,uint,uint)" => [
+      "KeeperWorked(address,address,address,uint256,uint256)" => [
         %{
-          enabled: false,
+          enabled: true,
           struct: Rube.Keep3r.Events.KeeperWorked,
           handler: {Rube.EventHandler, :handle_event, []},
           abi: [
@@ -996,9 +996,9 @@ config :slurp,
           ]
         }
       ],
-      "KeeperBonding(address,uint,uint,uint)" => [
+      "KeeperBonding(address,uint256,uint256,uint256)" => [
         %{
-          enabled: false,
+          enabled: true,
           struct: Rube.Keep3r.Events.KeeperBonding,
           handler: {Rube.EventHandler, :handle_event, []},
           abi: [
@@ -1036,9 +1036,9 @@ config :slurp,
           ]
         }
       ],
-      "KeeperBonded(address,uint,uint,uint)" => [
+      "KeeperBonded(address,uint256,uint256,uint256)" => [
         %{
-          enabled: false,
+          enabled: true,
           struct: Rube.Keep3r.Events.KeeperBonded,
           handler: {Rube.EventHandler, :handle_event, []},
           abi: [
@@ -1076,9 +1076,9 @@ config :slurp,
           ]
         }
       ],
-      "KeeperUnbonding(address,uint,uint,uint)" => [
+      "KeeperUnbonding(address,uint256,uint256,uint256)" => [
         %{
-          enabled: false,
+          enabled: true,
           struct: Rube.Keep3r.Events.KeeperUnbonding,
           handler: {Rube.EventHandler, :handle_event, []},
           abi: [
@@ -1116,9 +1116,9 @@ config :slurp,
           ]
         }
       ],
-      "KeeperUnbound(address,uint,uint,uint)" => [
+      "KeeperUnbound(address,uint256,uint256,uint256)" => [
         %{
-          enabled: false,
+          enabled: true,
           struct: Rube.Keep3r.Events.KeeperUnbound,
           handler: {Rube.EventHandler, :handle_event, []},
           abi: [
@@ -1156,9 +1156,9 @@ config :slurp,
           ]
         }
       ],
-      "KeeperSlashed(address,address,uint,uint)" => [
+      "KeeperSlashed(address,address,uint256,uint256)" => [
         %{
-          enabled: false,
+          enabled: true,
           struct: Rube.Keep3r.Events.KeeperSlashed,
           handler: {Rube.EventHandler, :handle_event, []},
           abi: [
@@ -1196,9 +1196,9 @@ config :slurp,
           ]
         }
       ],
-      "KeeperDispute(address,uint)" => [
+      "KeeperDispute(address,uint256)" => [
         %{
-          enabled: false,
+          enabled: true,
           struct: Rube.Keep3r.Events.KeeperDispute,
           handler: {Rube.EventHandler, :handle_event, []},
           abi: [
@@ -1224,9 +1224,9 @@ config :slurp,
           ]
         }
       ],
-      "KeeperResolved(address,uint)" => [
+      "KeeperResolved(address,uint256)" => [
         %{
-          enabled: false,
+          enabled: true,
           struct: Rube.Keep3r.Events.KeeperResolved,
           handler: {Rube.EventHandler, :handle_event, []},
           abi: [
@@ -1253,10 +1253,10 @@ config :slurp,
         }
       ],
       # Compound
-      "AccrueInterest(uint,uint,uint,uint)" => [
+      "AccrueInterest(uint256,uint256,uint256,uint256)" => [
         %{
           enabled: true,
-          struct: Rube.Compound.Events.AccrueInterest,
+          struct: Rube.MoneyMarkets.Events.AccrueInterest,
           handler: {Rube.EventHandler, :handle_event, []},
           abi: [
             %{
