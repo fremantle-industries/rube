@@ -173,6 +173,27 @@ config :slurp,
         # "wss://ws-mainnet.matic.network"
       ]
     },
+    # "xdai-mainnet" => %{
+    #   start_on_boot: false,
+    #   name: "xDAI Mainnet",
+    #   adapter: Slurp.Adapters.Evm,
+    #   network_id: 100,
+    #   chain_id: 100,
+    #   chain: "xDAI",
+    #   testnet: false,
+    #   timeout: 5000,
+    #   new_head_initial_history: 0,
+    #   poll_interval_ms: 2_500,
+    #   rpc: [
+    #     "https://rpc.xdaichain.com"
+    #     # "https://xdai.poanetwork.dev",
+    #     # "wss://rpc.xdaichain.com/wss",
+    #     # "wss://xdai.poanetwork.dev/wss",
+    #     # "http://xdai.poanetwork.dev",
+    #     # "https://dai.poa.network",
+    #     # "ws://xdai.poanetwork.dev:8546"
+    #   ]
+    # },
     "avalanche-mainnet" => %{
       start_on_boot: false,
       name: "Matic Mainnet",
