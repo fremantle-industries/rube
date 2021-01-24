@@ -70,4 +70,7 @@ defmodule RubeWeb.BlockchainLive do
 
     {:noreply, socket}
   end
+
+  defp running?(%Slurp.Commander.Blockchains.ListItem{status: :running}), do: true
+  defp running?(_), do: false
 end

@@ -35,15 +35,15 @@
         <% else %>
           <%= for b <- @blockchains do %>
             <tr>
-              <th scope="row"><%= b.id %></th>
-              <td><%= b.name %></td>
-              <td><%= b.status %></td>
-              <td><%= b.network_id %></td>
-              <td><%= b.chain_id %></td>
-              <td><%= b.chain %></td>
-              <td><%= b.testnet %></td>
-              <td><%= b.rpc %></td>
-              <td><%= "-" %></td>
+              <th scope="row" class="<%= running?(b) && "text-muted"%>"><%= b.id %></th>
+              <td class="<%= !running?(b) && "text-muted"%>"><%= b.name %></td>
+              <td class="<%= !running?(b) && "text-muted"%>"><%= b.status %></td>
+              <td class="<%= !running?(b) && "text-muted"%>"><%= b.network_id %></td>
+              <td class="<%= !running?(b) && "text-muted"%>"><%= b.chain_id %></td>
+              <td class="<%= !running?(b) && "text-muted"%>"><%= b.chain %></td>
+              <td class="<%= !running?(b) && "text-muted"%>"><%= b.testnet %></td>
+              <td class="<%= !running?(b) && "text-muted"%>"><%= b.rpc %></td>
+              <td class="<%= !running?(b) && "text-muted"%>">-</td>
               <td>
                 <%= if b.status == :running do %>
                   <button phx-click="stop" phx-value-id="<%= b.id %>" type="button" class="btn btn-outline-danger">stop</button>
