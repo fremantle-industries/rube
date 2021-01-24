@@ -25,6 +25,7 @@ defmodule RubeWeb.Router do
     live "/tokens", TokenLive, :index
     live "/money_markets", MoneyMarketLive, :index
     live "/amm", AmmLive, :index
+    live "/future_swap", FutureSwapLive, :index
     live "/chainlink", ChainlinkLive, :index
     live "/keep3r", Keep3rLive, :index
     live "/alerts", AlertLive, :index
