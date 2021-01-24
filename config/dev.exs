@@ -143,7 +143,7 @@ config :slurp,
         # "https://bsc-dataseed4.ninicoin.io",
         # "wss://bsc-ws-node.nariox.org"
       ]
-    }
+    },
     # "ethereum-ropsten" => %{
     #   start_on_boot: false,
     #   name: "Ethereum Testnet Ropsten",
@@ -157,6 +157,22 @@ config :slurp,
     #     "wss://ropsten.infura.io/ws/v3/${INFURA_API_KEY}"
     #   ]
     # }
+    "matic-mainnet" => %{
+      start_on_boot: false,
+      name: "Matic Mainnet",
+      adapter: Slurp.Adapters.Evm,
+      network_id: 137,
+      chain_id: 137,
+      chain: "Matic",
+      testnet: false,
+      timeout: 5000,
+      new_head_initial_history: 0,
+      poll_interval_ms: 2_500,
+      rpc: [
+        "https://rpc-mainnet.matic.network"
+        # "wss://ws-mainnet.matic.network"
+      ]
+    }
   }
 
 # config :slurp, new_heads_subscription_enabled: true
