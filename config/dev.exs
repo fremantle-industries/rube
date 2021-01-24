@@ -144,6 +144,21 @@ config :slurp,
         # "wss://bsc-ws-node.nariox.org"
       ]
     },
+    # TODO: Requires a separate adapter. Doesn't have the same RPC methods
+    # "okex-mainnet" => %{
+    #   start_on_boot: false,
+    #   name: "OkEx Chain Mainnet",
+    #   adapter: Slurp.Adapters.OkEx,
+    #   network_id: 66,
+    #   chain_id: 66,
+    #   chain: "okexchain",
+    #   testnet: false,
+    #   new_head_initial_history: 0,
+    #   poll_interval_ms: 1_000,
+    #   rpc: [
+    #     "https://www.okex.com/okexchain-rpc"
+    #   ]
+    # },
     # "ethereum-ropsten" => %{
     #   start_on_boot: false,
     #   name: "Ethereum Testnet Ropsten",
