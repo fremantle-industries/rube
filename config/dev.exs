@@ -101,7 +101,7 @@ config :ethereumex, client_type: :http
 config :slurp,
   blockchains: %{
     "eth-mainnet" => %{
-      start_on_boot: false,
+      start_on_boot: true,
       name: "Ethereum Mainnet",
       adapter: Slurp.Adapters.Evm,
       network_id: 1,
@@ -119,7 +119,7 @@ config :slurp,
       ]
     },
     "bsc-mainnet" => %{
-      start_on_boot: false,
+      start_on_boot: true,
       name: "Binance Smart Chain Mainnet",
       adapter: Slurp.Adapters.Evm,
       network_id: 56,
