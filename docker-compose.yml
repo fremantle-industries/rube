@@ -2,10 +2,10 @@ version: '3.8'
 
 services:
   db:
-    image: 'timescale/timescaledb:2.0.0-pg12'
+    image: timescale/timescaledb:2.3.0-pg13
     restart: always
     volumes:
-      - 'dbdata:/var/lib/postgresql/data'
+      - 'db_data:/var/lib/postgresql/data'
     ports:
       - "5432:5432"
     environment:
@@ -33,7 +33,7 @@ services:
       - LIVE_VIEW_SIGNING_SALT
       - DATABASE_URL
     volumes:
-      - webbuild:/app/_build
+      - web_build:/app/_build
       - ./.env:/app/.env
       - ./mix.exs:/app/mix.exs
       - ./mix.lock:/app/mix.lock
@@ -48,5 +48,5 @@ services:
       - ./priv/repo:/app/priv/repo
 
 volumes:
-  dbdata:
-  webbuild:
+  db_data:
+  web_build:
