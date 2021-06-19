@@ -1,32 +1,35 @@
-<section class="row">
-  <article>
-    <h2>Money Markets (<%= Enum.count(@money_markets) %>)</h2>
+<h2 class="text-3xl">Money Markets (<%= length(@money_markets) %>)</h2>
 
-    <table class="table">
-      <thead>
-        <tr>
-          <th scope="col">Blockchain ID</th>
-          <th scope="col">Symbol</th>
-          <th scope="col">Address</th>
-          <th scope="col">Precision</th>
+<div class="flex items-center mt-4">
+  <form>
+    <input type="text" placeholder="Search" disabled title="coming soon..." class="bg-gray-100 opacity-25" />
+  </form>
+</div>
+
+<table class="w-full mt-8">
+  <thead class="bg-gray-200 border-t-2 border-gray-400">
+    <tr>
+      <th scope="col" class="w-3/12 px-4 py-3 text-left">Blockchain ID</th>
+      <th scope="col" class="w-3/12 px-4 py-3 text-left">Symbol</th>
+      <th scope="col" class="w-3/12 px-4 py-3 text-left">Address</th>
+      <th scope="col" class="w-3/12 px-4 py-3 text-left">Precision</th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= if Enum.any?(@money_markets) do %>
+      <%= for t <- @money_markets do %>
+        <%# <tr class="<%= if t == @latest_money_market, do: "fade-out-bg", else: "" %1>"> %>
+        <tr class="hover:bg-gray-50 border-t border-b group">
+          <td scope="row" class="px-4 py-3"><%= t.blockchain_id %></td>
+          <td class="px-4 py-3"><%= t.symbol %></td>
+          <td class="px-4 py-3"><%= t.address %></td>
+          <td class="px-4 py-3"><%= t.precision %></td>
         </tr>
-      </thead>
-      <tbody>
-        <%= if Enum.count(@money_markets) == 0 do %>
-          <tr>
-            <td colspan="4">no money markets have been received yet</td>
-          </tr>
-        <% else %>
-          <%= for t <- @money_markets do %>
-            <tr class="<%= if t == @latest_money_market, do: "fade-out-bg", else: "" %>">
-              <th><%= t.blockchain_id %></th>
-              <td><%= t.symbol %></td>
-              <td><%= t.address %></td>
-              <td><%= t.precision %></td>
-            </tr>
-          <% end %>
-        <% end %>
-      </tbody>
-    </table>
-  </article>
-</section>
+      <% end %>
+    <% else %>
+      <tr class="hover:bg-gray-50 border-t border-b group">
+        <td colspan="4" class="px-4 py-3">no money markets have been received yet</td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

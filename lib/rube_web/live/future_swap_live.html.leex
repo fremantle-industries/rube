@@ -1,34 +1,36 @@
-<section class="row">
-  <article>
-    <h2>FutureSwap (<%= Enum.count(@pairs) %>)</h2>
+<h2 class="text-3xl">FutureSwap (<%= length(@pairs) %>)</h2>
 
-    <table class="table">
-      <thead>
-        <tr>
-          <th scope="col">Blockchain ID</th>
-          <th scope="col">Token 0</th>
-          <th scope="col">Token 1</th>
-          <th scope="col">Address</th>
-          <th scope="col">Price</th>
+<div class="flex items-center mt-4">
+  <form>
+    <input type="text" placeholder="Search" disabled title="coming soon..." class="bg-gray-100 opacity-25" />
+  </form>
+</div>
+
+<table class="w-full mt-8">
+  <thead class="bg-gray-200 border-t-2 border-gray-400">
+    <tr>
+      <th scope="col" class="w-3/12 px-4 py-3 text-left">Blockchain ID</th>
+      <th scope="col" class="w-3/12 px-4 py-3 text-left">Token 0</th>
+      <th scope="col" class="w-2/12 px-4 py-3 text-left">Token 1</th>
+      <th scope="col" class="w-2/12 px-4 py-3 text-left">Address</th>
+      <th scope="col" class="w-2/12 px-4 py-3 text-left">Price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= if Enum.any?(@pairs) do %>
+      <%= for p <- @pairs do %>
+        <tr class="hover:bg-gray-50 border-t border-b group">
+          <td scope="row" class="px-4 py-3"><%= p.blockchain_id %></td>
+          <td title="<%= p.token0 |> format_address %>" class="px-4 py-3"><%= p.token0 |> format_address |> String.slice(0..10) %>...</td>
+          <td title="<%= p.token1 |> format_address %>" class="px-4 py-3"><%= p.token1 |> format_address |> String.slice(0..10) %>...</td>
+          <td title="<%= p.address %>" class="px-4 py-3"><%= p.address |> String.slice(0..10) %>...</td>
+          <td class="px-4 py-3"><%= (p.reserve0 / p.reserve1) |> Decimal.from_float() |> Decimal.to_string(:normal) %></td>
         </tr>
-      </thead>
-      <tbody>
-        <%= if Enum.count(@pairs) == 0 do %>
-          <tr>
-            <td colspan="7">no future swap pairs have been received yet</td>
-          </tr>
-        <% else %>
-          <%= for p <- @pairs do %>
-            <tr>
-              <th><%= p.blockchain_id %></th>
-              <td title="<%= p.token0 |> format_address %>"><%= p.token0 |> format_address |> String.slice(0..10) %>...</td>
-              <td title="<%= p.token1 |> format_address %>"><%= p.token1 |> format_address |> String.slice(0..10) %>...</td>
-              <td title="<%= p.address %>"><%= p.address |> String.slice(0..10) %>...</td>
-              <td><%= (p.reserve0 / p.reserve1) |> Decimal.from_float() |> Decimal.to_string(:normal) %></td>
-            </tr>
-          <% end %>
-        <% end %>
-      </tbody>
-    </table>
-  </article>
-</section>
+      <% end %>
+    <% else %>
+      <tr class="hover:bg-gray-50 border-t border-b group">
+        <td colspan="7" class="px-4 py-3">no future swap pairs have been received yet</td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

@@ -11,7 +11,7 @@ defmodule Rube.EventHandler do
     route_event(blockchain, log, event)
 
     Phoenix.PubSub.broadcast(
-      Rube.PubSub,
+      Slurpee.PubSub,
       "events:event_received",
       {"events:event_received", blockchain.id, block_number, block_hash, address, event}
     )

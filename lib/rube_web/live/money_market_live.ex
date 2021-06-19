@@ -5,7 +5,7 @@ defmodule RubeWeb.MoneyMarketLive do
 
   @impl true
   def mount(_params, _session, socket) do
-    Phoenix.PubSub.subscribe(Rube.PubSub, "after_put_money_market")
+    Phoenix.PubSub.subscribe(Slurpee.PubSub, "after_put_money_market")
 
     money_markets =
       Rube.MoneyMarkets.all()

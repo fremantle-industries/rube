@@ -7,65 +7,18 @@
     <%= csrf_meta_tag() %>
     <%= live_title_tag assigns[:page_title] || "Rube", suffix: " · Phoenix Framework" %>
     <link phx-track-static rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
     <script defer phx-track-static type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
   </head>
   <body>
-    <header class="container">
-      <section class="row">
-        <div class="col">
-          <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="container-fluid">
-              <%= link "Rube Finance", to: Routes.home_path(@conn, :index), class: "navbar-brand" %>
-              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-              </button>
-              <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                  <li class="nav-item">
-                    <%= link "Blockchains", to: Routes.blockchain_path(@conn, :index), class: "nav-link" %>
-                  </li>
-                  <li class="nav-item">
-                    <%= link "Log Subscriptions", to: Routes.log_subscription_path(@conn, :index), class: "nav-link" %>
-                  </li>
-                  <li class="nav-item">
-                    <%= link "New Head Subscriptions", to: Routes.new_head_subscription_path(@conn, :index), class: "nav-link" %>
-                  </li>
-                  <li class="nav-item">
-                    <%= link "Transaction Subscriptions", to: Routes.transaction_subscription_path(@conn, :index), class: "nav-link" %>
-                  </li>
-                  <li class="nav-item">
-                    <%= link "Tokens", to: Routes.token_path(@conn, :index), class: "nav-link" %>
-                  </li>
-                  <li class="nav-item">
-                    <%= link "Money Markets", to: Routes.money_market_path(@conn, :index), class: "nav-link" %>
-                  </li>
-                  <li class="nav-item">
-                    <%= link "AMM", to: Routes.amm_path(@conn, :index), class: "nav-link" %>
-                  </li>
-                  <li class="nav-item">
-                    <%= link "FutureSwap", to: Routes.future_swap_path(@conn, :index), class: "nav-link" %>
-                  </li>
-                  <li class="nav-item">
-                    <%= link "Chainlink", to: Routes.chainlink_path(@conn, :index), class: "nav-link" %>
-                  </li>
-                  <li class="nav-item">
-                    <%= link "Keep3r", to: Routes.keep3r_path(@conn, :index), class: "nav-link" %>
-                  </li>
-                  <li class="nav-item">
-                    <%= link "Alerts", to: Routes.alert_path(@conn, :index), class: "nav-link" %>
-                  </li>
-                  <%= if function_exported?(Routes, :live_dashboard_path, 2) do %>
-                    <li class="nav-item">
-                      <%= link "Live Dashboard", to: Routes.live_dashboard_path(@conn, :home), class: "nav-link" %>
-                    </li>
-                  <% end %>
-                </ul>
-              </div>
-            </div>
-          </nav>
-        </div>
-      </section>
+    <header class="bg-gray-50 py-4 px-4">
+      <div class="flex justify-between items-center">
+        <%= render Navigator, "horizontal.html", conn: @conn %>
+      </div>
     </header>
-    <%= @inner_content %>
+    <main role="main" class="mx-4 py-4">
+      <%= @inner_content %>
+    </main>
   </body>
 </html>

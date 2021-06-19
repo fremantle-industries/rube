@@ -18,17 +18,12 @@ defmodule RubeWeb.Router do
     pipe_through :browser
 
     live "/", HomeLive, :index
-    live "/blockchains", BlockchainLive, :index
-    live "/log_subscriptions", LogSubscriptionLive, :index
-    live "/new_head_subscriptions", NewHeadSubscriptionLive, :index
-    live "/transactions", TransactionSubscriptionLive, :index
     live "/tokens", TokenLive, :index
     live "/money_markets", MoneyMarketLive, :index
     live "/amm", AmmLive, :index
     live "/future_swap", FutureSwapLive, :index
     live "/chainlink", ChainlinkLive, :index
     live "/keep3r", Keep3rLive, :index
-    live "/alerts", AlertLive, :index
   end
 
   if Mix.env() in [:dev, :test] do

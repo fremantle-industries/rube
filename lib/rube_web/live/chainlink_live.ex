@@ -3,7 +3,7 @@ defmodule RubeWeb.ChainlinkLive do
 
   @impl true
   def mount(_params, _session, socket) do
-    Phoenix.PubSub.subscribe(Rube.PubSub, "after_put_feed")
+    Phoenix.PubSub.subscribe(Slurpee.PubSub, "after_put_feed")
 
     feeds =
       Rube.Chainlink.feeds()

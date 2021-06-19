@@ -1,4 +1,5 @@
 const path = require('path');
+const glob = require('glob');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
@@ -16,7 +17,15 @@ module.exports = (_env, options) => {
         new OptimizeCSSAssetsPlugin({})
       ]
     },
-    entry: './js/app.ts',
+    entry: {
+      'app': glob.sync('./vendor/**/*.js').concat(['./js/app.ts'])
+    },
+    output: {
+      filename: '[name].js',
+      path: path.resolve(__dirname, '../priv/static/js'),
+      publicPath: '/js/'
+    },
+    devtool: devMode ? 'eval-cheap-module-source-map' : undefined,
 
     module: {
       rules: [
@@ -27,11 +36,25 @@ module.exports = (_env, options) => {
         },
 
         {
-          test: /\.[s]?css$/,
+          test: /\.css$/,
           use: [
             MiniCssExtractPlugin.loader,
             'css-loader',
-            'sass-loader',
+            {
+              loader: "postcss-loader",
+              options: {
+                postcssOptions: {
+                  plugins: [
+                    [
+                      "postcss-preset-env",
+                      {
+                        // Options
+                      },
+                    ],
+                  ],
+                },
+              },
+            }
           ],
         }
       ]
@@ -45,12 +68,6 @@ module.exports = (_env, options) => {
       }
     },
 
-    output: {
-      filename: "app.js",
-      path: path.resolve(__dirname, "../priv/static/js")
-    },
-
-    devtool: devMode ? 'eval-cheap-module-source-map' : undefined,
     plugins: [
       new MiniCssExtractPlugin({filename: '../css/app.css'}),
       new CopyWebpackPlugin({

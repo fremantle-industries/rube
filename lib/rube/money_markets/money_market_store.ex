@@ -3,7 +3,7 @@ defmodule Rube.MoneyMarkets.MoneyMarketStore do
 
   def after_put(money_market) do
     Phoenix.PubSub.broadcast(
-      Rube.PubSub,
+      Slurpee.PubSub,
       "after_put_money_market",
       {"after_put_money_market", money_market}
     )

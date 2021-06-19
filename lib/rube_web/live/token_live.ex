@@ -5,7 +5,7 @@ defmodule RubeWeb.TokenLive do
 
   @impl true
   def mount(_params, _session, socket) do
-    Phoenix.PubSub.subscribe(Rube.PubSub, "after_put_token")
+    Phoenix.PubSub.subscribe(Slurpee.PubSub, "after_put_token")
 
     tokens =
       Rube.Tokens.all()

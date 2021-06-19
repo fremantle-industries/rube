@@ -1,32 +1,34 @@
-<section class="row">
-  <article>
-    <h2>Keep3r Jobs</h2>
+<h2 class="text-3xl">Keep3r Jobs (<%= length(@jobs) %>)</h2>
 
-    <table class="table">
-      <thead>
-        <tr>
-          <th scope="col">Blockchain ID</th>
-          <th scope="col">Address</th>
-          <th scope="col">Type</th>
-          <th scope="col">Name - TODO</th>
+<div class="flex items-center mt-4">
+  <form>
+    <input type="text" placeholder="Search" disabled title="coming soon..." class="bg-gray-100 opacity-25" />
+  </form>
+</div>
+
+<table class="w-full mt-8">
+  <thead class="bg-gray-200 border-t-2 border-gray-400">
+    <tr>
+      <th scope="col" class="w-3/12 px-4 py-3 text-left">Blockchain ID</th>
+      <th scope="col" class="w-3/12 px-4 py-3 text-left">Address</th>
+      <th scope="col" class="w-3/12 px-4 py-3 text-left">Type</th>
+      <th scope="col" class="w-3/12 px-4 py-3 text-left">Name - TODO</th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= if Enum.any?(@jobs) do %>
+      <%= for j <- @jobs do %>
+        <tr class="hover:bg-gray-50 border-t border-b group">
+          <td scope="row" class="px-4 py-3"><%= j.blockchain_id %></td>
+          <td class="px-4 py-3"><%= j.job %></td>
+          <td class="px-4 py-3"><%= j.block %></td>
+          <td class="px-4 py-3"><%= j.governance %></td>
         </tr>
-      </thead>
-      <tbody>
-        <%= if Enum.count(@jobs) == 0 do %>
-          <tr>
-            <td colspan="4">no keep3r jobs have been received yet</td>
-          </tr>
-        <% else %>
-          <%= for j <- @jobs do %>
-            <tr>
-              <th><%= j.blockchain_id %></th>
-              <td><%= j.job %></td>
-              <td><%= j.block %></td>
-              <td><%= j.governance %></td>
-            </tr>
-          <% end %>
-        <% end %>
-      </tbody>
-    </table>
-  </article>
-</section>
+      <% end %>
+    <% else %>
+      <tr class="hover:bg-gray-50 border-t border-b group">
+        <td colspan="4" class="px-4 py-3">no keep3r jobs have been received yet</td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

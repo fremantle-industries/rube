@@ -1,38 +1,41 @@
-<section class="row">
-  <article>
-    <h2>Chainlink Feeds (<%= Enum.count(@feeds) %>)</h2>
+<h2 class="text-3xl">Chainlink Feeds (<%= length(@feeds) %>)</h2>
 
-    <table class="table">
-      <thead>
-        <tr>
-          <th scope="col">Blockchain ID</th>
-          <th scope="col">Name</th>
-          <th scope="col">Address</th>
-          <th scope="col">Type</th>
-          <th scope="col">Enabled</th>
-          <th scope="col">Latest Answer</th>
-          <th scope="col">Latest Round</th>
+<div class="flex items-center mt-4">
+  <form>
+    <input type="text" placeholder="Search" disabled title="coming soon..." class="bg-gray-100 opacity-25" />
+  </form>
+</div>
+
+<table class="w-full mt-8">
+  <thead class="bg-gray-200 border-t-2 border-gray-400">
+    <tr>
+      <th scope="col" class="w-2/12 px-4 py-3 text-left">Blockchain ID</th>
+      <th scope="col" class="w-2/12 px-4 py-3 text-left">Name</th>
+      <th scope="col" class="w-3/12 px-4 py-3 text-left">Address</th>
+      <th scope="col" class="w-2/12 px-4 py-3 text-left">Type</th>
+      <th scope="col" class="w-1/12 px-4 py-3 text-left">Enabled</th>
+      <th scope="col" class="w-1/12 px-4 py-3 text-left">Latest Answer</th>
+      <th scope="col" class="w-1/12 px-4 py-3 text-left">Latest Round</th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= if Enum.any?(@feeds) do %>
+      <%= for f <- @feeds do %>
+        <%# <tr class="<%= if f == @latest_feed, do: "fade-out-bg", else: "" %1>"> %>
+        <tr class="hover:bg-gray-50 border-t border-b group">
+          <td scope="row" class="px-4 py-3"><%= f.blockchain_id %></td>
+          <td class="px-4 py-3"><%= f.name %></td>
+          <td class="px-4 py-3"><%= f.address %></td>
+          <td class="px-4 py-3"><%= f.type %></td>
+          <td class="px-4 py-3"><%= f.enabled %></td>
+          <td class="px-4 py-3"><%= humanize_latest_answer(f) %></td>
+          <td class="px-4 py-3"><%= f.latest_round %></td>
         </tr>
-      </thead>
-      <tbody>
-        <%= if Enum.count(@feeds) == 0 do %>
-          <tr>
-            <td colspan="7">no chainlink feeds have been received yet</td>
-          </tr>
-        <% else %>
-          <%= for f <- @feeds do %>
-            <tr class="<%= if f == @latest_feed, do: "fade-out-bg", else: "" %>">
-              <th><%= f.blockchain_id %></th>
-              <td><%= f.name %></td>
-              <td><%= f.address %></td>
-              <td><%= f.type %></td>
-              <td><%= f.enabled %></td>
-              <td><%= humanize_latest_answer(f) %></td>
-              <td><%= f.latest_round %></td>
-            </tr>
-          <% end %>
-        <% end %>
-      </tbody>
-    </table>
-  </article>
-</section>
+      <% end %>
+    <% else %>
+      <tr class="hover:bg-gray-50 border-t border-b group">
+        <td colspan="7" class="px-4 py-3">no chainlink feeds have been received yet</td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

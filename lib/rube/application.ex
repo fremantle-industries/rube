@@ -7,14 +7,10 @@ defmodule Rube.Application do
     children = [
       Rube.Repo,
       RubeWeb.Telemetry,
-      {Phoenix.PubSub, name: Rube.PubSub},
       Rube.Tokens.Supervisor,
       Rube.MoneyMarkets.Supervisor,
       Rube.Amm.Supervisor,
       Rube.Chainlink.Supervisor,
-      Rube.RecentHeads,
-      Rube.RecentEvents,
-      Rube.BlockchainStatistics,
       RubeWeb.Endpoint
     ]
 
