@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  db:
+    image: timescale/timescaledb:2.3.0-pg13
+    restart: always
+    volumes:
+      - 'db_data:/var/lib/postgresql/data'
+    ports:
+      - "5432:5432"
+    environment:
+      PGDATA: /var/lib/postgresql/data/pgdata
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_HOST_AUTH_METHOD: trust
+
+  web:
+    build: .
+    depends_on:
+      - db
+    env_file:
+      - .env
+    ports:
+      - '4000:4000'
+      - '11000:4369'
+      - '11001:9999'
+    environment:
+      - "${MIX_ENV:-dev}"
+      - PORT
+      - HOST_PORT
+      - HOST
+      - SECRET_KEY_BASE
+      - LIVE_VIEW_SIGNING_SALT
+      - DATABASE_URL
+    volumes:
+      - web_build:/app/_build
+      - ./.env:/app/.env
+      - ./mix.exs:/app/mix.exs
+      - ./mix.lock:/app/mix.lock
+      - ./assets/css:/app/assets/css
+      - ./assets/js:/app/assets/js
+      - ./assets/static:/app/assets/static
+      - ./assets/package.json:/app/assets/package.json
+      - ./assets/package-lock.json:/app/assets/package-lock.json
+      - ./assets/webpack.config.js:/app/assets/webpack.config.js
+      - ./config:/app/config
+      - ./lib:/app/lib
+      - ./priv/repo:/app/priv/repo
+
+volumes:
+  db_data:
+  web_build:
