@@ -1,8 +1,8 @@
 <h2 class="text-3xl">Tokens (<%= length(@tokens) %>)</h2>
 
 <div class="flex items-center mt-4">
-  <form>
-    <input type="text" placeholder="Search" disabled title="coming soon..." class="bg-gray-100 opacity-25" />
+  <form phx-change="search" phx-submit="search">
+    <input type="text" name="query" value="<%= @query %>" placeholder="Search" autocomplete="off"/>
   </form>
 </div>
 
@@ -28,7 +28,13 @@
       <% end %>
     <% else %>
       <tr class="hover:bg-gray-50 border-t border-b group">
-        <td colspan="4" class="px-4 py-3">no tokens have been received yet</td>
+        <td colspan="4" class="px-4 py-3">
+          <%= if @query == nil do %>
+            no tokens have been received yet
+          <% else %>
+            no search results
+          <% end %>
+        </td>
       </tr>
     <% end %>
   </tbody>
