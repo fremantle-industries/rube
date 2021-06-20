@@ -11,7 +11,16 @@ defmodule Rube.Chainlink.Feed do
           latest_round: term
         }
 
-  defstruct ~w[blockchain_id address type name enabled precision latest_answer latest_round]a
+  defstruct ~w[
+    blockchain_id
+    address
+    type
+    name
+    enabled
+    precision
+    latest_answer
+    latest_round
+  ]a
 
   defimpl Stored.Item do
     def key(feed), do: {feed.blockchain_id, feed.address}
