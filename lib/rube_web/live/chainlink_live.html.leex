@@ -21,8 +21,7 @@
   <tbody>
     <%= if Enum.any?(@feeds) do %>
       <%= for f <- @feeds do %>
-        <%# <tr class="<%= if f == @latest_feed, do: "fade-out-bg", else: "" %1>"> %>
-        <tr class="hover:bg-gray-50 border-t border-b group">
+        <tr class="<%= if @latest && f.address == @latest.address, do: "animate-pulse bg-blue-50" %> hover:bg-gray-50 border-t border-b group">
           <td scope="row" class="px-4 py-3"><%= f.blockchain_id %></td>
           <td class="px-4 py-3"><%= f.name %></td>
           <td class="px-4 py-3"><%= f.address %></td>

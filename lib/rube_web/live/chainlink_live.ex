@@ -9,7 +9,7 @@ defmodule RubeWeb.ChainlinkLive do
     socket =
       socket
       |> assign(:query, nil)
-      |> assign(latest_feed: nil)
+      |> assign(latest: nil)
 
     {:ok, socket}
   end
@@ -49,9 +49,31 @@ defmodule RubeWeb.ChainlinkLive do
     socket =
       socket
       |> assign_search()
-      |> assign(latest_feed: latest_feed)
+      |> send_clear_latest(3000)
+      |> assign(latest: latest_feed)
 
     {:noreply, socket}
+  end
+
+  @impl true
+  def handle_info(:clear_latest, socket) do
+    socket =
+      socket
+      |> assign(:latest, nil)
+
+    {:noreply, socket}
+  end
+
+  @timer_name :clear_latest_timer
+  defp send_clear_latest(socket, after_ms) do
+    if socket.assigns[@timer_name] do
+      Process.cancel_timer(socket.assigns[@timer_name])
+    end
+
+    timer = Process.send_after(self(), :clear_latest, after_ms)
+
+    socket
+    |> assign(@timer_name, timer)
   end
 
   defp send_search_after(socket, after_ms) do
