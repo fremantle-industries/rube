@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      target: builder
+    environment:
+      - "${MIX_ENV:-dev}"
+    volumes:
+      - web_build:/app/_build
+      - web_deps:/app/deps
+      - ./.env:/app/.env
+      - ./mix.exs:/app/mix.exs
+      - ./mix.lock:/app/mix.lock
+      - ./assets/css:/app/assets/css
+      - ./assets/js:/app/assets/js
+      - ./assets/static:/app/assets/static
+      - ./assets/package.json:/app/assets/package.json
+      - ./assets/package-lock.json:/app/assets/package-lock.json
+      - ./assets/webpack.config.js:/app/assets/webpack.config.js
+      - ./assets/postcss.config.js:/app/assets/postcss.config.js
+      - ./assets/tailwind.config.js:/app/assets/tailwind.config.js
+      - ./assets/tsconfig.json:/app/assets/tsconfig.json
+      - ./config:/app/config
+      - ./lib:/app/lib
+      - ./priv/repo:/app/priv/repo
+    entrypoint: "sh -c 'mix setup && mix phx.server'"
+
+volumes:
+  web_deps:

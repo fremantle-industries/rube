@@ -1,0 +1,79 @@
+version: '3.8'
+
+services:
+  db:
+    image: timescale/timescaledb:2.3.0-pg13
+    restart: always
+    volumes:
+      - 'db_data:/var/lib/postgresql/data'
+    ports:
+      - "5432:5432"
+    environment:
+      PGDATA: /var/lib/postgresql/data/pgdata
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_HOST_AUTH_METHOD: trust
+
+  web:
+    build: .
+    depends_on:
+      - db
+    env_file:
+      - .env
+    environment:
+      - "${MIX_ENV:-prod}"
+      - HTTP_PORT
+      - RUBE_HOST
+      - SLURPEE_HOST
+      - RUBE_SECRET_KEY_BASE
+      - RUBE_LIVE_VIEW_SIGNING_SALT
+      - SLURPEE_SECRET_KEY_BASE
+      - SLURPEE_LIVE_VIEW_SIGNING_SALT
+      - DATABASE_URL
+
+  prometheus:
+    image: 'prom/prometheus:v2.28.0'
+    restart: always
+    ports:
+      - 9090:9090
+    volumes:
+      - ./prometheus/:/etc/prometheus/
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+
+  grafana:
+    image: 'grafana/grafana:7.5.8'
+    restart: always
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./grafana/provisioning/:/etc/grafana/provisioning/
+    env_file:
+      - ./grafana/config.monitoring
+
+  reverse_proxy:
+    build:
+      context: .
+      dockerfile: ./reverse_proxy/Dockerfile
+    ports:
+      - 80:80
+    volumes:
+      - ./reverse_proxy/templates:/etc/nginx/templates
+      - ./reverse_proxy/nginx.htpasswd:/etc/nginx/conf.d/nginx.htpasswd
+    environment:
+      - HTTP_PORT
+      - RUBE_HOST
+      - SLURPEE_HOST
+      - GRAFANA_HOST
+      - PROMETHEUS_HOST
+
+volumes:
+  db_data:
+  web_build:
+  prometheus_data:
+  grafana_data:

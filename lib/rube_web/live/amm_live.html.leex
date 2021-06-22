@@ -1,0 +1,60 @@
+<h2 class="text-3xl">AMM (<%= length(@pairs) %>)</h2>
+
+<div class="flex items-center mt-4">
+  <form phx-change="search" phx-submit="search">
+    <input type="text" name="query" value="<%= @query %>" placeholder="Search" autocomplete="off"/>
+  </form>
+</div>
+
+<table class="w-full mt-8">
+  <thead class="bg-gray-200 border-t-2 border-gray-400">
+    <tr>
+      <th scope="col" class="w-4/24 px-4 py-3 text-left">Blockchain ID</th>
+      <th scope="col" class="w-5/24 px-4 py-3 text-left">Token 0</th>
+      <th scope="col" class="w-5/24 px-4 py-3 text-left">Token 1</th>
+      <th scope="col" class="w-6/24 px-4 py-3 text-left">Address</th>
+      <th scope="col" class="w-4/24 px-4 py-3 text-left">Price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= if Enum.any?(@pairs) do %>
+      <%= for p <- @pairs do %>
+        <tr class="<%= if p == @latest, do: "animate-pulse bg-blue-50" %> hover:bg-gray-50 border-t border-b group">
+          <td scope="row" class="px-4 py-3"><%= p.blockchain_id %></td>
+          <td title="<%= p.token0 %>" class="px-4 py-3">
+            <div class="flex active:opacity-25">
+              <%= link token_name(p.blockchain_id, p.token0, []), to: Routes.token_path(@socket, :show, p.blockchain_id, p.token0) %>
+              <%= copy_button target_text: p.token0, class: "ml-2" %>
+              <%= explorer_address_link(p.blockchain_id, p.token0, class: "ml-2") %>
+            </div>
+          </td>
+          <td title="<%= p.token1 %>" class="px-4 py-3">
+            <div class="flex active:opacity-25">
+              <%= link token_name(p.blockchain_id, p.token1, []), to: Routes.token_path(@socket, :show, p.blockchain_id, p.token1) %>
+              <%= copy_button target_text: p.token1, class: "ml-2" %>
+              <%= explorer_address_link(p.blockchain_id, p.token1, class: "ml-2") %>
+            </div>
+          </td>
+          <td title="<%= p.address %>">
+            <div class="flex active:opacity-25">
+              <%= ellipsis(p.address, 24) %>
+              <%= copy_button target_text: p.address, class: "ml-2" %>
+              <%= explorer_address_link(p.blockchain_id, p.address, class: "ml-2") %>
+            </div>
+          </td>
+          <td class="px-4 py-3"><%= (p.reserve0 / p.reserve1) |> Decimal.from_float() |> Decimal.to_string(:normal) %></td>
+        </tr>
+      <% end %>
+    <% else %>
+      <tr class="hover:bg-gray-50 border-t border-b group">
+        <td colspan="7" class="px-4 py-3">
+          <%= if @query == nil do %>
+            no amm pairs have been received yet
+          <% else %>
+            no search results
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
