@@ -78,7 +78,7 @@ defmodule Rube.MixProject do
   end
 
   defp description do
-    "A DeFi development toolkit"
+    "A multi-chain DeFi development toolkit"
   end
 
   defp package do

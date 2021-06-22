@@ -3,7 +3,7 @@
 [![Build Status](https://github.com/fremantle-industries/rube/workflows/test/badge.svg?branch=main)](https://github.com/fremantle-industries/rube/actions?query=workflow%3Atest)
 [![hex.pm version](https://img.shields.io/hexpm/v/rube.svg?style=flat)](https://hex.pm/packages/rube)
 
-A DeFi development toolkit for Elixir
+A multi-chain DeFi development toolkit for Elixir
 
 [![rube-poc-overview](./docs/rube-poc-overview-thumbnail.png)](https://youtu.be/f2phGFZrh80)
 
