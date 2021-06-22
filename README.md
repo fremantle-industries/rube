@@ -3,9 +3,25 @@
 [![Build Status](https://github.com/fremantle-industries/rube/workflows/test/badge.svg?branch=main)](https://github.com/fremantle-industries/rube/actions?query=workflow%3Atest)
 [![hex.pm version](https://img.shields.io/hexpm/v/rube.svg?style=flat)](https://hex.pm/packages/rube)
 
-A multi-chain DeFi development toolkit for Elixir
+A multi-chain DeFi development toolkit for Elixir.
+
+Build upon the configuration DSL provided by [slurp](https://github.com/fremantle-industries/slurp)
+then control your on-chain event & transaction subscriptions via the [slurpee](https://github.com/fremantle-industries/slurpee)
+and rube GUI's.
 
 [![rube-poc-overview](./docs/rube-poc-overview-thumbnail.png)](https://youtu.be/f2phGFZrh80)
+
+| Protocols                                        | Supported | Planned |
+| ------------------------------------------------ | :-------: | :-----: |
+| ERC20 Tokens                                     |    [x]    |   [ ]   |
+| Chainlink                                        |    [x]    |   [ ]   |
+| AMM's (Uniswap/Sushiswap/Pancakeswap etc...)     |    [x]    |   [ ]   |
+| Money Markets (Aave, Compound, C.R.E.A.M etc...) |    [x]    |   [ ]   |
+| Keep3r                                           |    [ ]    |   [x]   |
+| Perpetual Protocol                               |    [ ]    |   [x]   |
+| FutureSwap                                       |    [ ]    |   [x]   |
+| Vega Protocol                                    |    [ ]    |   [x]   |
+| Injective Protocol                               |    [ ]    |   [x]   |
 
 ## Install
 
