@@ -15,7 +15,7 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 1,
+  "id": 6,
   "links": [
     {
       "asDropdown": false,
@@ -23,41 +23,18 @@
       "includeVars": false,
       "keepTime": false,
       "tags": [
-        "slurp-health"
+        "home"
       ],
       "targetBlank": false,
       "title": "",
       "tooltip": "",
       "type": "dashboards",
       "url": ""
-    },
-    {
-      "icon": "external link",
-      "tags": [
-        "phoenix-health"
-      ],
-      "type": "dashboards"
-    },
-    {
-      "icon": "external link",
-      "tags": [
-        "beam-vm-health"
-      ],
-      "type": "dashboards"
-    },
-    {
-      "icon": "external link",
-      "tags": [
-        "ecto-health"
-      ],
-      "type": "dashboards"
     }
   ],
   "panels": [
     {
-      "aliasColors": {
-        "usd": "light-green"
-      },
+      "aliasColors": {},
       "bars": false,
       "dashLength": 10,
       "dashes": false,
@@ -69,7 +46,7 @@
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
-        "h": 10,
+        "h": 14,
         "w": 24,
         "x": 0,
         "y": 0
@@ -103,17 +80,25 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "",
+          "expr": "slurp_blockchains_start",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
+        },
+        {
+          "exemplar": true,
+          "expr": "slurp_blockchains_stop",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "",
+          "refId": "B"
         }
       ],
       "thresholds": [],
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Blocks/s",
+      "title": "Blockchain start/stop",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -129,16 +114,14 @@
       },
       "yaxes": [
         {
-          "$$hashKey": "object:42",
           "format": "short",
-          "label": "$",
+          "label": null,
           "logBase": 1,
           "max": null,
           "min": null,
           "show": true
         },
         {
-          "$$hashKey": "object:43",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -156,18 +139,18 @@
   "schemaVersion": 27,
   "style": "dark",
   "tags": [
-    "home"
+    "slurp-health"
   ],
   "templating": {
     "list": []
   },
   "time": {
-    "from": "now-12h",
+    "from": "now-6h",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
-  "title": "Home",
-  "uid": "f2rLff8Gz",
+  "title": "Slurp Health",
+  "uid": "ghTTORk7k",
   "version": 4
 }

@@ -16,6 +16,9 @@ services:
 
   web:
     build: .
+    ports:
+      - 9568:9568
+      - 9569:9569
     depends_on:
       - db
     env_file:
@@ -34,8 +37,6 @@ services:
   prometheus:
     image: 'prom/prometheus:v2.28.0'
     restart: always
-    ports:
-      - 9090:9090
     volumes:
       - ./prometheus/:/etc/prometheus/
       - prometheus_data:/prometheus
@@ -48,8 +49,6 @@ services:
   grafana:
     image: 'grafana/grafana:7.5.8'
     restart: always
-    ports:
-      - "3000:3000"
     volumes:
       - grafana_data:/var/lib/grafana
       - ./grafana/provisioning/:/etc/grafana/provisioning/

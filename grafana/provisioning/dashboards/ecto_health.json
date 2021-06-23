@@ -15,6 +15,7 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
+  "id": 5,
   "links": [
     {
       "icon": "external link",
@@ -32,9 +33,7 @@
       "dashes": false,
       "datasource": null,
       "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
+        "defaults": {},
         "overrides": []
       },
       "fill": 1,
@@ -63,7 +62,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.4.2",
+      "pluginVersion": "7.5.8",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -73,7 +72,8 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "workbench_repo_query_queue_time",
+          "exemplar": true,
+          "expr": "rube_repo_query_queue_time",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -83,7 +83,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "workbench_repo_query_queue_time",
+      "title": "rube_repo_query_queue_time",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -129,9 +129,7 @@
       "dashes": false,
       "datasource": null,
       "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
+        "defaults": {},
         "overrides": []
       },
       "fill": 1,
@@ -160,7 +158,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.4.2",
+      "pluginVersion": "7.5.8",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -170,7 +168,8 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "workbench_repo_query_total_time",
+          "exemplar": true,
+          "expr": "rube_repo_query_total_time",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -180,7 +179,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "workbench_repo_query_total_time",
+      "title": "rube_repo_query_total_time",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -226,9 +225,7 @@
       "dashes": false,
       "datasource": null,
       "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
+        "defaults": {},
         "overrides": []
       },
       "fill": 1,
@@ -257,7 +254,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.4.2",
+      "pluginVersion": "7.5.8",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -267,7 +264,8 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "workbench_repo_query_idle_time",
+          "exemplar": true,
+          "expr": "rube_repo_query_idle_time",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -277,7 +275,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "workbench_repo_query_idle_time",
+      "title": "rube_repo_query_idle_time",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -323,9 +321,7 @@
       "dashes": false,
       "datasource": null,
       "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
+        "defaults": {},
         "overrides": []
       },
       "fill": 1,
@@ -354,7 +350,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.4.2",
+      "pluginVersion": "7.5.8",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -364,7 +360,8 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "workbench_repo_query_query_time",
+          "exemplar": true,
+          "expr": "rube_repo_query_query_time",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -374,7 +371,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "workbench_repo_query_query_time",
+      "title": "rube_repo_query_query_time",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -420,9 +417,7 @@
       "dashes": false,
       "datasource": null,
       "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
+        "defaults": {},
         "overrides": []
       },
       "fill": 1,
@@ -451,7 +446,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.4.2",
+      "pluginVersion": "7.5.8",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -461,7 +456,8 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "workbench_repo_query_decode_time",
+          "exemplar": true,
+          "expr": "rube_repo_query_decode_time",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -471,7 +467,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "workbench_repo_query_decode_time",
+      "title": "rube_repo_query_decode_time",
       "tooltip": {
         "shared": true,
         "sort": 0,
