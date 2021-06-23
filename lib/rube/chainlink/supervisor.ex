@@ -9,7 +9,8 @@ defmodule Rube.Chainlink.Supervisor do
   def init(_arg) do
     children = [
       Rube.Chainlink.FeedStore,
-      Rube.Chainlink.FeedBuilder
+      Rube.Chainlink.FeedBuilder,
+      Rube.Chainlink.FeedIndexer
     ]
 
     Supervisor.init(children, strategy: :one_for_one)

@@ -15,8 +15,8 @@ defmodule Rube.Chainlink do
     Chainlink.FeedStore.find({blockchain_id, address})
   end
 
-  @spec fetch_and_store_feed(blockchain_id, address) :: no_return
-  def fetch_and_store_feed(blockchain_id, address) do
-    Chainlink.FeedBuilder.fetch(blockchain_id, address)
+  @spec get_or_fetch(blockchain_id, address) :: :ok
+  def get_or_fetch(blockchain_id, address) do
+    Chainlink.FeedIndexer.get_or_fetch(blockchain_id, address)
   end
 end

@@ -1,43 +1,29 @@
 defmodule Rube.Chainlink.EventHandler do
   alias Rube.Chainlink
+  alias Rube.Chainlink.Events
 
-  def handle_event(blockchain, %{"address" => address}, %Chainlink.Events.AnswerUpdated{}) do
-    case Chainlink.find_feed(blockchain.id, address) do
-      {:error, :not_found} -> Chainlink.fetch_and_store_feed(blockchain.id, address)
-      # TODO: Update feed
-      _ -> nil
-    end
+  def handle_event(blockchain, %{"address" => address}, %Events.AnswerUpdated{}) do
+    Chainlink.get_or_fetch(blockchain.id, address)
+    # TODO: Update feed
   end
 
-  def handle_event(blockchain, %{"address" => address}, %Chainlink.Events.NewRound{}) do
-    case Chainlink.find_feed(blockchain.id, address) do
-      {:error, :not_found} -> Chainlink.fetch_and_store_feed(blockchain.id, address)
-      # TODO: Update feed
-      _ -> nil
-    end
+  def handle_event(blockchain, %{"address" => address}, %Events.NewRound{}) do
+    Chainlink.get_or_fetch(blockchain.id, address)
+    # TODO: Update feed
   end
 
-  def handle_event(blockchain, %{"address" => address}, %Chainlink.Events.SubmissionReceived{}) do
-    case Chainlink.find_feed(blockchain.id, address) do
-      {:error, :not_found} -> Chainlink.fetch_and_store_feed(blockchain.id, address)
-      # TODO: Update feed
-      _ -> nil
-    end
+  def handle_event(blockchain, %{"address" => address}, %Events.SubmissionReceived{}) do
+    Chainlink.get_or_fetch(blockchain.id, address)
+    # TODO: Update feed
   end
 
-  def handle_event(blockchain, %{"address" => address}, %Chainlink.Events.NewTransmission{}) do
-    case Chainlink.find_feed(blockchain.id, address) do
-      {:error, :not_found} -> Chainlink.fetch_and_store_feed(blockchain.id, address)
-      # TODO: Update feed
-      _ -> nil
-    end
+  def handle_event(blockchain, %{"address" => address}, %Events.NewTransmission{}) do
+    Chainlink.get_or_fetch(blockchain.id, address)
+    # TODO: Update feed
   end
 
-  def handle_event(blockchain, %{"address" => address}, %Chainlink.Events.AvailableFundsUpdated{}) do
-    case Chainlink.find_feed(blockchain.id, address) do
-      {:error, :not_found} -> Chainlink.fetch_and_store_feed(blockchain.id, address)
-      # TODO: Update feed
-      _ -> nil
-    end
+  def handle_event(blockchain, %{"address" => address}, %Events.AvailableFundsUpdated{}) do
+    Chainlink.get_or_fetch(blockchain.id, address)
+    # TODO: Update feed
   end
 end
