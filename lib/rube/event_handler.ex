@@ -55,6 +55,28 @@ defmodule Rube.EventHandler do
     Rube.MoneyMarkets.EventHandler.handle_event(blockchain, log, event)
   end
 
+  @keep3r_events [
+    # Rube.Keep3r.Events.AddCredit,
+    # Rube.Keep3r.Events.ApplyCredit,
+    # Rube.Keep3r.Events.JobAdded,
+    # Rube.Keep3r.Events.JobRemoved,
+    # Rube.Keep3r.Events.KeeperBonded,
+    # Rube.Keep3r.Events.KeeperBonding,
+    # Rube.Keep3r.Events.KeeperDispute,
+    # Rube.Keep3r.Events.KeeperResolved,
+    # Rube.Keep3r.Events.KeeperSlashed,
+    # Rube.Keep3r.Events.KeeperUnbonding,
+    # Rube.Keep3r.Events.KeeperUnbound,
+    Rube.Keep3r.Events.KeeperWorked
+    # Rube.Keep3r.Events.RemoveJob,
+    # Rube.Keep3r.Events.SubmitJob,
+    # Rube.Keep3r.Events.UnbondJob
+  ]
+  defp route_event(blockchain, log, %event_name{} = event)
+       when event_name in @keep3r_events do
+    Rube.Keep3r.EventHandler.handle_event(blockchain, log, event)
+  end
+
   defp route_event(_, _, %event_name{} = _) do
     Logger.warn("received unhandled event: #{event_name}")
   end
