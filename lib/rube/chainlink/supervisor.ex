@@ -8,6 +8,7 @@ defmodule Rube.Chainlink.Supervisor do
   @impl true
   def init(_arg) do
     children = [
+      Rube.Chainlink.FeedTelemetry,
       Rube.Chainlink.FeedStore,
       Rube.Chainlink.FeedBuilder,
       Rube.Chainlink.FeedIndexer

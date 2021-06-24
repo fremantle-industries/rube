@@ -1,0 +1,636 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "gnetId": null,
+  "graphTooltip": 0,
+  "id": 8,
+  "iteration": 1624567508233,
+  "links": [
+    {
+      "asDropdown": false,
+      "icon": "external link",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [
+        "home"
+      ],
+      "targetBlank": false,
+      "title": "",
+      "tooltip": "",
+      "type": "dashboards",
+      "url": ""
+    }
+  ],
+  "panels": [
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 15,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "hiddenSeries": false,
+      "id": 2,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.5.8",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "exemplar": true,
+          "expr": "rube_chainlink_feeds_latest_answer{blockchain_id=~\"$blockchain\", name=~\"$feed_name\"}",
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Answers",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:274",
+          "decimals": 2,
+          "format": "none",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:275",
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 15,
+        "w": 24,
+        "x": 0,
+        "y": 15
+      },
+      "hiddenSeries": false,
+      "id": 4,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.5.8",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "exemplar": true,
+          "expr": "increase(rube_chainlink_feeds_latest_round{blockchain_id=~\"$blockchain\", name=~\"$feed_name\"}[1h])",
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Rounds per hour",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    }
+  ],
+  "schemaVersion": 27,
+  "style": "dark",
+  "tags": [
+    "chainlink"
+  ],
+  "templating": {
+    "list": [
+      {
+        "allValue": null,
+        "current": {
+          "selected": true,
+          "tags": [],
+          "text": [
+            "eth-mainnet"
+          ],
+          "value": [
+            "eth-mainnet"
+          ]
+        },
+        "datasource": null,
+        "definition": "label_values(rube_chainlink_feeds_latest_answer, blockchain_id)",
+        "description": null,
+        "error": null,
+        "hide": 0,
+        "includeAll": true,
+        "label": null,
+        "multi": true,
+        "name": "blockchain",
+        "options": [
+          {
+            "selected": false,
+            "text": "All",
+            "value": "$__all"
+          },
+          {
+            "selected": false,
+            "text": "bsc-mainnet",
+            "value": "bsc-mainnet"
+          },
+          {
+            "selected": true,
+            "text": "eth-mainnet",
+            "value": "eth-mainnet"
+          }
+        ],
+        "query": {
+          "query": "label_values(rube_chainlink_feeds_latest_answer, blockchain_id)",
+          "refId": "StandardVariableQuery"
+        },
+        "refresh": 0,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {
+          "selected": true,
+          "tags": [],
+          "text": [
+            "ETH / USD"
+          ],
+          "value": [
+            "ETH / USD"
+          ]
+        },
+        "datasource": null,
+        "definition": "label_values(rube_chainlink_feeds_latest_answer{blockchain_id=~\"$blockchain\"}, name)",
+        "description": null,
+        "error": null,
+        "hide": 0,
+        "includeAll": true,
+        "label": null,
+        "multi": true,
+        "name": "feed_name",
+        "options": [
+          {
+            "selected": false,
+            "text": "All",
+            "value": "$__all"
+          },
+          {
+            "selected": false,
+            "text": "DNT / ETH",
+            "value": "DNT / ETH"
+          },
+          {
+            "selected": false,
+            "text": "RGT / ETH",
+            "value": "RGT / ETH"
+          },
+          {
+            "selected": false,
+            "text": "YFII / ETH",
+            "value": "YFII / ETH"
+          },
+          {
+            "selected": false,
+            "text": "MANA / ETH",
+            "value": "MANA / ETH"
+          },
+          {
+            "selected": false,
+            "text": "DOGE / USD",
+            "value": "DOGE / USD"
+          },
+          {
+            "selected": false,
+            "text": "OMG / USD",
+            "value": "OMG / USD"
+          },
+          {
+            "selected": false,
+            "text": "Total Marketcap / USD",
+            "value": "Total Marketcap / USD"
+          },
+          {
+            "selected": true,
+            "text": "ETH / USD",
+            "value": "ETH / USD"
+          },
+          {
+            "selected": false,
+            "text": "REN / USD",
+            "value": "REN / USD"
+          },
+          {
+            "selected": false,
+            "text": "ZRX / USD",
+            "value": "ZRX / USD"
+          },
+          {
+            "selected": false,
+            "text": "CRO / ETH",
+            "value": "CRO / ETH"
+          },
+          {
+            "selected": false,
+            "text": "TSLA / USD",
+            "value": "TSLA / USD"
+          },
+          {
+            "selected": false,
+            "text": "SUSD / ETH",
+            "value": "SUSD / ETH"
+          },
+          {
+            "selected": false,
+            "text": "RARI / ETH",
+            "value": "RARI / ETH"
+          },
+          {
+            "selected": false,
+            "text": "DPI / USD",
+            "value": "DPI / USD"
+          },
+          {
+            "selected": false,
+            "text": "CREAM / ETH",
+            "value": "CREAM / ETH"
+          },
+          {
+            "selected": false,
+            "text": "BADGER / ETH",
+            "value": "BADGER / ETH"
+          },
+          {
+            "selected": false,
+            "text": "KP3R / ETH",
+            "value": "KP3R / ETH"
+          },
+          {
+            "selected": false,
+            "text": "KSM / USD",
+            "value": "KSM / USD"
+          },
+          {
+            "selected": false,
+            "text": "UNI / USD",
+            "value": "UNI / USD"
+          },
+          {
+            "selected": false,
+            "text": "COMP / USD",
+            "value": "COMP / USD"
+          },
+          {
+            "selected": false,
+            "text": "ALPHA / ETH",
+            "value": "ALPHA / ETH"
+          },
+          {
+            "selected": false,
+            "text": "SUSHI / USD",
+            "value": "SUSHI / USD"
+          },
+          {
+            "selected": false,
+            "text": "STMX / USD",
+            "value": "STMX / USD"
+          },
+          {
+            "selected": false,
+            "text": "CNY / USD",
+            "value": "CNY / USD"
+          },
+          {
+            "selected": false,
+            "text": "Fast Gas / Gwei",
+            "value": "Fast Gas / Gwei"
+          },
+          {
+            "selected": false,
+            "text": "SRM / ETH",
+            "value": "SRM / ETH"
+          },
+          {
+            "selected": false,
+            "text": "BADGER / USD",
+            "value": "BADGER / USD"
+          },
+          {
+            "selected": false,
+            "text": "ZEC / USD",
+            "value": "ZEC / USD"
+          },
+          {
+            "selected": false,
+            "text": "MKR / USD",
+            "value": "MKR / USD"
+          },
+          {
+            "selected": false,
+            "text": "GRT / ETH",
+            "value": "GRT / ETH"
+          },
+          {
+            "selected": false,
+            "text": "REP / USD",
+            "value": "REP / USD"
+          },
+          {
+            "selected": false,
+            "text": "FXS / USD",
+            "value": "FXS / USD"
+          },
+          {
+            "selected": false,
+            "text": "BOND / ETH",
+            "value": "BOND / ETH"
+          },
+          {
+            "selected": false,
+            "text": "BTC / USD",
+            "value": "BTC / USD"
+          },
+          {
+            "selected": false,
+            "text": "1INCH / ETH",
+            "value": "1INCH / ETH"
+          },
+          {
+            "selected": false,
+            "text": "CRV / USD",
+            "value": "CRV / USD"
+          },
+          {
+            "selected": false,
+            "text": "FIL / USD",
+            "value": "FIL / USD"
+          },
+          {
+            "selected": false,
+            "text": "CV / Index",
+            "value": "CV / Index"
+          },
+          {
+            "selected": false,
+            "text": "ADA / USD",
+            "value": "ADA / USD"
+          },
+          {
+            "selected": false,
+            "text": "KNC / USD",
+            "value": "KNC / USD"
+          },
+          {
+            "selected": false,
+            "text": "BTC / ETH",
+            "value": "BTC / ETH"
+          },
+          {
+            "selected": false,
+            "text": "DOT / USD",
+            "value": "DOT / USD"
+          },
+          {
+            "selected": false,
+            "text": "AUTO / USD",
+            "value": "AUTO / USD"
+          },
+          {
+            "selected": false,
+            "text": "1INCH / USD",
+            "value": "1INCH / USD"
+          },
+          {
+            "selected": false,
+            "text": "NEAR / USD",
+            "value": "NEAR / USD"
+          },
+          {
+            "selected": false,
+            "text": "CELO / USD",
+            "value": "CELO / USD"
+          },
+          {
+            "selected": false,
+            "text": "TRX / USD",
+            "value": "TRX / USD"
+          },
+          {
+            "selected": false,
+            "text": "DAI / USD",
+            "value": "DAI / USD"
+          },
+          {
+            "selected": false,
+            "text": "LINK / USD",
+            "value": "LINK / USD"
+          },
+          {
+            "selected": false,
+            "text": "ZRX / ETH",
+            "value": "ZRX / ETH"
+          },
+          {
+            "selected": false,
+            "text": "WOM / ETH",
+            "value": "WOM / ETH"
+          },
+          {
+            "selected": false,
+            "text": "DIGG / BTC",
+            "value": "DIGG / BTC"
+          },
+          {
+            "selected": false,
+            "text": "RUNE / USD",
+            "value": "RUNE / USD"
+          },
+          {
+            "selected": false,
+            "text": "XAU / USD",
+            "value": "XAU / USD"
+          },
+          {
+            "selected": false,
+            "text": "REN / ETH",
+            "value": "REN / ETH"
+          },
+          {
+            "selected": false,
+            "text": "XMR / USD",
+            "value": "XMR / USD"
+          },
+          {
+            "selected": false,
+            "text": "LTC / USD",
+            "value": "LTC / USD"
+          },
+          {
+            "selected": false,
+            "text": "SFI / ETH",
+            "value": "SFI / ETH"
+          }
+        ],
+        "query": {
+          "query": "label_values(rube_chainlink_feeds_latest_answer{blockchain_id=~\"$blockchain\"}, name)",
+          "refId": "StandardVariableQuery"
+        },
+        "refresh": 0,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      }
+    ]
+  },
+  "time": {
+    "from": "now-1h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "Chainlink",
+  "uid": "SDZvoiznk",
+  "version": 5
+}

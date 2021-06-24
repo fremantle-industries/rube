@@ -37,6 +37,20 @@
       "includeVars": false,
       "keepTime": false,
       "tags": [
+        "chainlink"
+      ],
+      "targetBlank": false,
+      "title": "",
+      "tooltip": "",
+      "type": "dashboards",
+      "url": ""
+    },
+    {
+      "asDropdown": false,
+      "icon": "external link",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [
         "slurp-health"
       ],
       "targetBlank": false,
@@ -183,5 +197,5 @@
   "timezone": "",
   "title": "Home",
   "uid": "f2rLff8Gz",
-  "version": 5
+  "version": 6
 }

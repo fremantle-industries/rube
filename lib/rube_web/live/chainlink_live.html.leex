@@ -33,7 +33,7 @@
           </td>
           <td class="px-4 py-3"><%= f.type %></td>
           <td class="px-4 py-3"><%= f.enabled %></td>
-          <td class="px-4 py-3"><%= humanize_latest_answer(f) %></td>
+          <td class="px-4 py-3"><%= f |> Rube.Chainlink.Feed.humanize_latest_answer() |> Decimal.to_string(:normal) %></td>
           <td class="px-4 py-3"><%= f.latest_round %></td>
         </tr>
       <% end %>
