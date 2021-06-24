@@ -23,6 +23,20 @@
       "includeVars": false,
       "keepTime": false,
       "tags": [
+        "amm"
+      ],
+      "targetBlank": false,
+      "title": "",
+      "tooltip": "",
+      "type": "dashboards",
+      "url": ""
+    },
+    {
+      "asDropdown": false,
+      "icon": "external link",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [
         "slurp-health"
       ],
       "targetBlank": false,
@@ -30,6 +44,13 @@
       "tooltip": "",
       "type": "dashboards",
       "url": ""
+    },
+    {
+      "icon": "external link",
+      "tags": [
+        "ecto-health"
+      ],
+      "type": "dashboards"
     },
     {
       "icon": "external link",
@@ -42,13 +63,6 @@
       "icon": "external link",
       "tags": [
         "beam-vm-health"
-      ],
-      "type": "dashboards"
-    },
-    {
-      "icon": "external link",
-      "tags": [
-        "ecto-health"
       ],
       "type": "dashboards"
     }
@@ -169,5 +183,5 @@
   "timezone": "",
   "title": "Home",
   "uid": "f2rLff8Gz",
-  "version": 4
+  "version": 5
 }

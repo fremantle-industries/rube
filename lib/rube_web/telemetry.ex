@@ -38,7 +38,25 @@ defmodule RubeWeb.Telemetry do
       last_value("rube.repo.query.decode_time", unit: {:native, :millisecond}),
       last_value("rube.repo.query.query_time", unit: {:native, :millisecond}),
       last_value("rube.repo.query.queue_time", unit: {:native, :millisecond}),
-      last_value("rube.repo.query.idle_time", unit: {:native, :millisecond})
+      last_value("rube.repo.query.idle_time", unit: {:native, :millisecond}),
+
+      # Rube Metrics
+      last_value("rube.amm.pair_price.price",
+        tags: [
+          :blockchain_id,
+          :address,
+          :token0_address,
+          :token1_address,
+          :token0_symbol,
+          :token1_symbol
+        ]
+      ),
+      last_value("rube.amm.pair_reserve0.reserve",
+        tags: [:blockchain_id, :address, :token_address, :token_symbol]
+      ),
+      last_value("rube.amm.pair_reserve1.reserve",
+        tags: [:blockchain_id, :address, :token_address, :token_symbol]
+      )
     ]
   end
 

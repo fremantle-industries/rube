@@ -9,6 +9,7 @@ defmodule Rube.Amm.Supervisor do
   @impl true
   def init(_arg) do
     children = [
+      Amm.PairTelemetry,
       Amm.PairStore,
       Amm.PairBuilder,
       Amm.PairIndexer

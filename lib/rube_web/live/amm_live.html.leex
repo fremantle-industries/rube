@@ -23,14 +23,14 @@
           <td scope="row" class="px-4 py-3"><%= p.blockchain_id %></td>
           <td title="<%= p.token0 %>" class="px-4 py-3">
             <div class="flex active:opacity-25">
-              <%= link token_name(p.blockchain_id, p.token0, []), to: Routes.token_path(@socket, :show, p.blockchain_id, p.token0) %>
+              <%= link p.token0_symbol, to: Routes.token_path(@socket, :show, p.blockchain_id, p.token0) %>
               <%= copy_button target_text: p.token0, class: "ml-2" %>
               <%= explorer_address_link(p.blockchain_id, p.token0, class: "ml-2") %>
             </div>
           </td>
           <td title="<%= p.token1 %>" class="px-4 py-3">
             <div class="flex active:opacity-25">
-              <%= link token_name(p.blockchain_id, p.token1, []), to: Routes.token_path(@socket, :show, p.blockchain_id, p.token1) %>
+              <%= link p.token1_symbol, to: Routes.token_path(@socket, :show, p.blockchain_id, p.token1) %>
               <%= copy_button target_text: p.token1, class: "ml-2" %>
               <%= explorer_address_link(p.blockchain_id, p.token1, class: "ml-2") %>
             </div>
@@ -42,7 +42,9 @@
               <%= explorer_address_link(p.blockchain_id, p.address, class: "ml-2") %>
             </div>
           </td>
-          <td class="px-4 py-3"><%= (p.reserve0 / p.reserve1) |> Decimal.from_float() |> Decimal.to_string(:normal) %></td>
+          <td class="px-4 py-3">
+            <%= p |> Rube.Amm.Pair.price() |> Decimal.to_string(:normal) %>
+          </td>
         </tr>
       <% end %>
     <% else %>
