@@ -31,6 +31,7 @@ defmodule Rube.MixProject do
 
   defp deps do
     [
+      {:accessible, "~> 0.3"},
       {:deque, "~> 1.0"},
       {:ecto_sql, "~> 3.4"},
       # ex_abi 0.5.3 changes the output decoder which breaks slurp
@@ -51,8 +52,9 @@ defmodule Rube.MixProject do
       {:postgrex, ">= 0.0.0"},
       # {:slurp, github: "fremantle-industries/slurp", branch: "main", override: true},
       {:slurp, "~> 0.0.7"},
+      # {:slurpee, "~> 0.0.9"},
+      {:slurpee, github: "fremantle-industries/slurpee", branch: "telemetry", override: true},
       # {:stylish, github: "fremantle-industries/stylish", branch: "main", override: true},
-      {:slurpee, "~> 0.0.9"},
       {:stylish, "~> 0.0.5"},
       {:telemetry, "~> 0.4"},
       {:telemetry_metrics, "~> 0.4"},

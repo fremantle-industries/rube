@@ -1,13 +1,21 @@
 defmodule Rube.Tokens.TokenBuilder do
   use GenServer
   alias Rube.Tokens
+  alias Slurp.Blockchains
 
-  def start_link(arg) do
-    GenServer.start_link(__MODULE__, arg, name: __MODULE__)
+  @type blockchain_id :: Blockchains.Blockchain.id()
+  @type address :: term
+  @type token :: Tokens.Token.t()
+  @type fetch_result :: {:ok, token} | {:error, term}
+
+  @spec start_link(list) :: GenServer.on_start()
+  def start_link(_) do
+    GenServer.start_link(__MODULE__, :ok, name: __MODULE__)
   end
 
-  def fetch(blockchain_id, address) do
-    GenServer.cast(__MODULE__, {:fetch, blockchain_id, address})
+  @spec fetch(blockchain_id, address) :: fetch_result
+  def(fetch(blockchain_id, address)) do
+    GenServer.call(__MODULE__, {:fetch, blockchain_id, address})
   end
 
   @impl true
@@ -16,16 +24,19 @@ defmodule Rube.Tokens.TokenBuilder do
   end
 
   @impl true
-  def handle_cast({:fetch, blockchain_id, address}, state) do
-    with {:ok, token} <- fetch_token(blockchain_id, address) do
-      {:ok, _} = Tokens.TokenStore.put(token)
-    end
+  def handle_call({:fetch, blockchain_id, address}, _from, state) do
+    case fetch_token(blockchain_id, address) do
+      {:ok, token} = ok ->
+        Tokens.TokenStore.put(token)
+        {:reply, ok, state}
 
-    {:noreply, state}
+      {:error, _reason} = error ->
+        {:reply, error, state}
+    end
   end
 
   defp fetch_token(blockchain_id, address) do
-    with {:ok, blockchain} <- Slurp.Blockchains.find(blockchain_id),
+    with {:ok, blockchain} <- Blockchains.find(blockchain_id),
          {:ok, symbol} <- Tokens.Contract.symbol(blockchain, address),
          {:ok, decimals} <- Tokens.Contract.decimals(blockchain, address) do
       token = %Tokens.Token{
