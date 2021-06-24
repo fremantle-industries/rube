@@ -56,6 +56,20 @@ defmodule RubeWeb.Telemetry do
       ),
       last_value("rube.amm.pair_reserve1.reserve",
         tags: [:blockchain_id, :address, :token_address, :token_symbol]
+      ),
+      last_value("rube.chainlink.feeds.latest_answer",
+        tags: [
+          :blockchain_id,
+          :address,
+          :name
+        ]
+      ),
+      last_value("rube.chainlink.feeds.latest_round",
+        tags: [
+          :blockchain_id,
+          :address,
+          :name
+        ]
       )
     ]
   end

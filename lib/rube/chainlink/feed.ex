@@ -22,6 +22,16 @@ defmodule Rube.Chainlink.Feed do
     latest_round
   ]a
 
+  @spec humanize_latest_answer(t) :: Decimal.t()
+  def humanize_latest_answer(feed) do
+    divisor = 10 |> :math.pow(feed.precision) |> Decimal.from_float()
+
+    feed.latest_answer
+    |> Decimal.new()
+    |> Decimal.div(divisor)
+    |> Decimal.normalize()
+  end
+
   defimpl Stored.Item do
     def key(feed), do: {feed.blockchain_id, feed.address}
   end

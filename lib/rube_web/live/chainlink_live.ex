@@ -114,10 +114,4 @@ defmodule RubeWeb.ChainlinkLive do
         String.contains?(t.type |> Atom.to_string(), search_term)
     end)
   end
-
-  defp humanize_latest_answer(feed) do
-    divisor = 10 |> :math.pow(feed.precision) |> Decimal.from_float()
-    latest_answer = Decimal.new(feed.latest_answer)
-    latest_answer |> Decimal.div(divisor) |> Decimal.normalize() |> Decimal.to_string(:normal)
-  end
 end
