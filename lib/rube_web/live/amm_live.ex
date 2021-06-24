@@ -2,7 +2,6 @@ defmodule RubeWeb.AmmLive do
   use RubeWeb, :live_view
   import SlurpeeWeb.ViewHelpers.SearchQueryHelper, only: [assign_search_query: 2]
   import RubeWeb.ExplorerHelpers, only: [explorer_address_link: 3]
-  import RubeWeb.TokenHelpers, only: [token_name: 3]
   import Stylish.Ellipsis, only: [ellipsis: 2]
   import Stylish.CopyButton, only: [copy_button: 1]
 
@@ -97,8 +96,8 @@ defmodule RubeWeb.AmmLive do
   @order_by ~w[blockchain_id token_0 token_1]a
   defp search_amm_pairs(search_term) do
     Rube.Amm.pairs()
-    |> Enumerati.order(@order_by)
     |> search_amm_pairs(search_term)
+    |> Enumerati.order(@order_by)
   end
 
   defp search_amm_pairs(amm_pairs, nil) do
@@ -110,7 +109,9 @@ defmodule RubeWeb.AmmLive do
     |> Enum.filter(fn p ->
       String.contains?(p.blockchain_id, search_term) ||
         String.contains?(p.token0, search_term) ||
+        String.contains?(p.token0_symbol, search_term) ||
         String.contains?(p.token1, search_term) ||
+        String.contains?(p.token1_symbol, search_term) ||
         String.contains?(p.address, search_term)
     end)
   end

@@ -15,9 +15,9 @@ defmodule Rube.Amm do
     Amm.PairStore.find({blockchain_id, address})
   end
 
-  @spec get_or_fetch_pair(blockchain_id, address) :: :ok
-  def get_or_fetch_pair(blockchain_id, address) do
-    Amm.PairIndexer.get_or_fetch_pair(blockchain_id, address)
+  @spec ensure(blockchain_id, address) :: :ok
+  def ensure(blockchain_id, address) do
+    Amm.PairIndexer.ensure(blockchain_id, address)
   end
 
   @spec put_pair(pair) :: term

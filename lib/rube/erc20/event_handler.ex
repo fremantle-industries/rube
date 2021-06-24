@@ -1,16 +1,14 @@
 defmodule Rube.Erc20.EventHandler do
-  alias Rube.Tokens
   alias Rube.Erc20.Events
+  alias Rube.Tokens
 
-  def handle_event(blockchain, %{"address" => address}, %Events.Transfer{}) do
-    Tokens.get_or_fetch(blockchain.id, address)
-  end
-
-  def handle_event(blockchain, %{"address" => address}, %Events.Mint{}) do
-    Tokens.get_or_fetch(blockchain.id, address)
-  end
-
-  def handle_event(blockchain, %{"address" => address}, %Events.Burn{}) do
-    Tokens.get_or_fetch(blockchain.id, address)
+  @events [
+    Events.Transfer,
+    Events.Mint,
+    Events.Burn
+  ]
+  def handle_event(blockchain, %{"address" => address}, %event_name{})
+      when event_name in @events do
+    Tokens.ensure(blockchain.id, address)
   end
 end

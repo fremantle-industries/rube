@@ -15,8 +15,13 @@ defmodule Rube.Tokens do
     Tokens.TokenStore.find({blockchain_id, address})
   end
 
-  @spec get_or_fetch(blockchain_id, address) :: :ok
-  def get_or_fetch(blockchain_id, address) do
-    Tokens.TokenIndexer.get_or_fetch(blockchain_id, address)
+  @spec get(blockchain_id, address) :: term
+  def get(blockchain_id, address) do
+    Tokens.TokenIndexer.get(blockchain_id, address)
+  end
+
+  @spec ensure(blockchain_id, address) :: :ok
+  def ensure(blockchain_id, address) do
+    Tokens.TokenIndexer.ensure(blockchain_id, address)
   end
 end
