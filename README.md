@@ -44,7 +44,6 @@ $ mix setup
 $ mix phx.server
 ```
 
-
 Or within `docker-compose` `http://rube.localhost`
 
 ```
