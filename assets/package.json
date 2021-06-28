@@ -10,21 +10,20 @@
     "@popperjs/core": "^2.9.2",
     "copy-button": "^2.0.0",
     "notified_phoenix": "file:../deps/notified_phoenix",
-    "nprogress": "^0.2.0",
     "phoenix": "file:../deps/phoenix",
     "phoenix_html": "file:../deps/phoenix_html",
     "phoenix_live_react": "file:../deps/phoenix_live_react",
     "phoenix_live_view": "file:../deps/phoenix_live_view",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-timeago": "^6.2.1"
+    "react-timeago": "^6.2.1",
+    "topbar": "^1.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.14.5",
     "@babel/preset-env": "^7.14.7",
     "@babel/preset-react": "^7.14.5",
     "@tailwindcss/forms": "^0.3.3",
-    "@types/nprogress": "^0.2.0",
     "@types/phoenix": "^1.5.1",
     "@types/phoenix_live_view": "^0.15.0",
     "@types/react": "^17.0.11",

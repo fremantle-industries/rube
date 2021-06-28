@@ -15,7 +15,7 @@ import "../css/app.css"
 import "phoenix_html"
 import "copy-button"
 import {Socket} from "phoenix"
-import {start as nProgressStart, done as nProgressDone} from "nprogress"
+import * as topbar from "topbar"
 import {LiveSocket} from "phoenix_live_view"
 
 // LiveReact
@@ -31,8 +31,9 @@ let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("
 let liveSocket = new LiveSocket("/live", Socket, {params: {_csrf_token: csrfToken}, hooks})
 
 // Show progress bar on live navigation and form submits
-window.addEventListener("phx:page-loading-start", () => nProgressStart())
-window.addEventListener("phx:page-loading-stop", () => nProgressDone())
+topbar.config({barColors: {0: "#29d"}, shadowColor: "rgba(0, 0, 0, .3)"})
+window.addEventListener("phx:page-loading-start", info => topbar.show())
+window.addEventListener("phx:page-loading-stop", info => topbar.hide())
 
 // connect if there are any LiveViews on the page
 liveSocket.connect()
