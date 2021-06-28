@@ -4,7 +4,7 @@ defmodule Rube.MixProject do
   def project do
     [
       app: :rube,
-      version: "0.0.1",
+      version: "0.0.2",
       elixir: "~> 1.11",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
