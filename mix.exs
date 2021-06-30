@@ -34,9 +34,6 @@ defmodule Rube.MixProject do
       {:accessible, "~> 0.3"},
       {:deque, "~> 1.0"},
       {:ecto_sql, "~> 3.4"},
-      # ex_abi 0.5.3 changes the output decoder which breaks slurp
-      # https://github.com/poanetwork/ex_abi/pull/50/files
-      {:ex_abi, "0.5.2"},
       {:gettext, "~> 0.11"},
       {:jason, "~> 1.0"},
       {:master_proxy, "~> 0.1"},
@@ -51,9 +48,9 @@ defmodule Rube.MixProject do
       {:plug_cowboy, "~> 2.0"},
       {:postgrex, ">= 0.0.0"},
       # {:slurp, github: "fremantle-industries/slurp", branch: "main", override: true},
-      {:slurp, "~> 0.0.7"},
+      # {:slurp, "~> 0.0.9"},
       # {:slurpee, github: "fremantle-industries/slurpee", branch: "main", override: true},
-      {:slurpee, "~> 0.0.9"},
+      {:slurpee, "~> 0.0.12"},
       # {:stylish, github: "fremantle-industries/stylish", branch: "main", override: true},
       {:stylish, "~> 0.0.5"},
       {:telemetry, "~> 0.4"},
