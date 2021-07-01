@@ -30,7 +30,7 @@ Add `rube` to your list of dependencies in `mix.exs`
 ```elixir
 def deps do
   [
-    {:rube, "~> 0.0.2"}
+    {:rube, "~> 0.0.3"}
   ]
 end
 ```
