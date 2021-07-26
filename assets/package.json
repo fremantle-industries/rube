@@ -34,7 +34,7 @@
     "css-loader": "^6.1.0",
     "mini-css-extract-plugin": "^2.1.0",
     "optimize-css-assets-webpack-plugin": "^6.0.1",
-    "postcss": "^8.3.0",
+    "postcss": "^8.3.6",
     "postcss-import": "^14.0.2",
     "postcss-loader": "^6.1.1",
     "postcss-preset-env": "^6.7.0",
