@@ -21,7 +21,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.14.8",
-    "@babel/preset-env": "^7.14.7",
+    "@babel/preset-env": "^7.14.8",
     "@babel/preset-react": "^7.14.5",
     "@tailwindcss/forms": "^0.3.3",
     "@types/phoenix": "^1.5.2",
