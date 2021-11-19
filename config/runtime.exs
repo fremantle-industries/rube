@@ -269,7 +269,7 @@ if config_env() == :dev do
   config :slurp,
     blockchains: %{
       "eth-mainnet" => %{
-        start_on_boot: true,
+        start_on_boot: false,
         name: "Ethereum",
         adapter: Slurp.Adapters.Evm,
         network_id: 1,
@@ -288,7 +288,7 @@ if config_env() == :dev do
         ]
       },
       "bsc-mainnet" => %{
-        start_on_boot: true,
+        start_on_boot: false,
         name: "Binance Smart Chain",
         adapter: Slurp.Adapters.Evm,
         network_id: 56,
@@ -398,7 +398,7 @@ if config_env() == :dev do
       #   ]
       # },
       "avalanche-mainnet" => %{
-        start_on_boot: false,
+        start_on_boot: true,
         name: "Avalanche",
         adapter: Slurp.Adapters.Evm,
         network_id: 43114,
@@ -475,6 +475,7 @@ if config_env() == :dev do
             struct: Rube.Erc20.Events.Approval,
             handler: {Rube.EventHandler, :handle_event, []},
             abi: [
+              # token standard
               %{
                 "anonymous" => false,
                 "inputs" => [
@@ -493,9 +494,28 @@ if config_env() == :dev do
                     "name" => "value",
                     "type" => "uint256"
                   }
-                ],
-                "name" => "Approval",
-                "type" => "event"
+                ]
+              },
+              # fallback
+              %{
+                "anonymous" => false,
+                "inputs" => [
+                  %{
+                    "indexed" => true,
+                    "name" => "owner",
+                    "type" => "address"
+                  },
+                  %{
+                    "indexed" => true,
+                    "name" => "spender",
+                    "type" => "address"
+                  },
+                  %{
+                    "indexed" => false,
+                    "name" => "value",
+                    "type" => "uint256"
+                  }
+                ]
               }
             ]
           }
