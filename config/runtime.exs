@@ -511,7 +511,7 @@ if config_env() == :dev do
                     "type" => "address"
                   },
                   %{
-                    "indexed" => false,
+                    "indexed" => true,
                     "name" => "value",
                     "type" => "uint256"
                   }
