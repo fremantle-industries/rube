@@ -191,6 +191,16 @@ config :slurp, log_subscriptions: %{}
 # config :slurp, transaction_subscription_enabled: true
 # config :slurp, transaction_subscription_handler: {Examples.Transactions, :handle_transaction, []}
 
+# logger
+config :logger, backends: [{LoggerFileBackend, :file_log}]
+config :logger, :file_log, path: "./log/#{config_env()}.log", metadata: [:blockchain_id]
+
+if System.get_env("DEBUG") == "true" do
+  config :logger, :file_log, level: :debug
+else
+  config :logger, :file_log, level: :info
+end
+
 # Conditional configuration
 # Dev
 if config_env() == :dev do
