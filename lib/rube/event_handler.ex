@@ -18,9 +18,8 @@ defmodule Rube.EventHandler do
   end
 
   @erc20_events [
-    Rube.Erc20.Events.Transfer,
-    Rube.Erc20.Events.Mint,
-    Rube.Erc20.Events.Burn
+    Rube.Erc20.Events.Approval,
+    Rube.Erc20.Events.Transfer
   ]
   defp route_event(blockchain, log, %event_name{} = event)
        when event_name in @erc20_events do
@@ -28,8 +27,8 @@ defmodule Rube.EventHandler do
   end
 
   @amm_events [
-    Rube.Amm.Events.Sync,
-    Rube.Amm.Events.Swap
+    Rube.Uniswap.Events.Sync,
+    Rube.Uniswap.Events.Swap
   ]
   defp route_event(blockchain, log, %event_name{} = event) when event_name in @amm_events do
     Rube.Amm.EventHandler.handle_event(blockchain, log, event)
@@ -48,7 +47,11 @@ defmodule Rube.EventHandler do
   end
 
   @money_market_events [
-    Rube.MoneyMarkets.Events.AccrueInterest
+    Rube.Compound.Events.AccrueInterest,
+    Rube.Compound.Events.Borrow,
+    Rube.Compound.Events.Redeem,
+    Rube.Compound.Events.RepayBorrow,
+    Rube.Compound.Events.LiquidateBorrow
   ]
   defp route_event(blockchain, log, %event_name{} = event)
        when event_name in @money_market_events do

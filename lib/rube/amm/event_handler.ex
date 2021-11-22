@@ -1,8 +1,7 @@
 defmodule Rube.Amm.EventHandler do
   alias Rube.Amm
-  alias Rube.Amm.Events
 
-  def handle_event(blockchain, %{"address" => address}, %Events.Swap{}) do
+  def handle_event(blockchain, %{"address" => address}, %Rube.Uniswap.Events.Swap{}) do
     case Amm.find_pair(blockchain.id, address) do
       {:ok, pair} ->
         # TODO: what attributes need to be updated here?
@@ -15,7 +14,7 @@ defmodule Rube.Amm.EventHandler do
     end
   end
 
-  def handle_event(blockchain, %{"address" => address}, %Events.Sync{} = event) do
+  def handle_event(blockchain, %{"address" => address}, %Rube.Uniswap.Events.Sync{} = _event) do
     case Amm.find_pair(blockchain.id, address) do
       {:ok, pair} ->
         # updated_pair = %{
