@@ -418,7 +418,7 @@ if config_env() == :dev do
         timeout: 5000,
         new_head_initial_history: 0,
         poll_interval_ms: 2_500,
-        explorer: {Slurp.ExplorerAdapters.Avascan, "https://avascan.info"},
+        explorer: {Slurp.ExplorerAdapters.Avascan, "https://avascan.info/blockchain/c"},
         rpc: [
           "https://api.avax.network/ext/bc/C/rpc"
         ]
