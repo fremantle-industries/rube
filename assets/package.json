@@ -36,7 +36,7 @@
     "optimize-css-assets-webpack-plugin": "^6.0.1",
     "postcss": "^8.4.4",
     "postcss-import": "^14.0.2",
-    "postcss-loader": "^6.2.0",
+    "postcss-loader": "^6.2.1",
     "postcss-preset-env": "^7.0.1",
     "tailwindcss": "^2.2.19",
     "tailwindcss-empty-pseudo-class": "^1.0.0",
