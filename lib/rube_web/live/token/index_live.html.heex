@@ -2,7 +2,7 @@
 
 <div class="flex items-center mt-4">
   <form phx-change="search" phx-submit="search">
-    <input type="text" name="query" value="<%= @query %>" placeholder="Search" autocomplete="off"/>
+    <input type="text" name="query" value={@query} placeholder="Search" autocomplete="off"/>
   </form>
 </div>
 
@@ -27,7 +27,7 @@
           <td class="px-4 py-3">
             <div class="flex active:opacity-25">
               <%= ellipsis(t.address, 24) %>
-              <%= copy_button target_text: t.address, class: "ml-2" %>
+              <Stylish.Buttons.copy target-text={t.address} class="ml-2" />
               <%= explorer_address_link(t.blockchain_id, t.address, class: "ml-2") %>
             </div>
           </td>

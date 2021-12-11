@@ -478,7 +478,7 @@ if config_env() == :dev do
   config :slurp,
     log_subscriptions: %{
       "*" => [
-        # {Rube.Erc20.EventFactory, :create, [[approval_enabled: true, transfer_enabled: true]]},
+        {Rube.Erc20.EventFactory, :create, [[approval_enabled: true, transfer_enabled: true]]},
         # {
         #   Rube.Chainlink.EventFactory,
         #   :create,
