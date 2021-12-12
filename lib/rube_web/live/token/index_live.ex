@@ -3,7 +3,6 @@ defmodule RubeWeb.Token.IndexLive do
   import SlurpeeWeb.ViewHelpers.SearchQueryHelper, only: [assign_search_query: 2]
   import RubeWeb.ExplorerHelpers, only: [explorer_address_link: 3]
   import Stylish.Ellipsis, only: [ellipsis: 2]
-  import Stylish.CopyButton, only: [copy_button: 1]
 
   @impl true
   def mount(_params, _session, socket) do
