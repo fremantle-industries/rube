@@ -7,7 +7,7 @@
     "watch": "NODE_ENV=development webpack --mode development --watch"
   },
   "dependencies": {
-    "@popperjs/core": "^2.11.0",
+    "@popperjs/core": "^2.11.2",
     "copy-button": "^2.0.0",
     "notified_phoenix": "file:../deps/notified_phoenix",
     "phoenix": "file:../deps/phoenix",
