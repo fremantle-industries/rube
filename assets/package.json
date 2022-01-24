@@ -32,7 +32,7 @@
     "babel-loader": "^8.2.3",
     "copy-webpack-plugin": "^10.2.0",
     "css-loader": "^6.5.1",
-    "mini-css-extract-plugin": "^2.5.1",
+    "mini-css-extract-plugin": "^2.5.2",
     "optimize-css-assets-webpack-plugin": "^6.0.1",
     "postcss": "^8.4.5",
     "postcss-import": "^14.0.2",
