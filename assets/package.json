@@ -20,10 +20,10 @@
     "topbar": "^1.0.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.17.5",
+    "@babel/core": "^7.17.7",
     "@babel/preset-env": "^7.16.11",
     "@babel/preset-react": "^7.16.7",
-    "@tailwindcss/forms": "^0.4.0",
+    "@tailwindcss/forms": "^0.5.0",
     "@types/phoenix": "^1.5.4",
     "@types/phoenix_live_view": "^0.15.1",
     "@types/react": "^17.0.39",
@@ -41,7 +41,7 @@
     "tailwindcss": "^3.0.23",
     "tailwindcss-empty-pseudo-class": "^1.0.0",
     "terser-webpack-plugin": "^5.3.1",
-    "ts-loader": "^9.2.6",
+    "ts-loader": "^9.2.8",
     "typescript": "^4.5.5",
     "webpack": "5.69.1",
     "webpack-cli": "^4.9.2"
