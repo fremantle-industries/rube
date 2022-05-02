@@ -15,7 +15,7 @@
     "phoenix_live_react": "file:../deps/phoenix_live_react",
     "phoenix_live_view": "file:../deps/phoenix_live_view",
     "react": "^18.0.0",
-    "react-dom": "^18.0.0",
+    "react-dom": "^18.1.0",
     "react-timeago": "^6.2.1",
     "topbar": "^1.0.1"
   },
